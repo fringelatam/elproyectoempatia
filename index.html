@@ -3,16 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="El Proyecto Empatía, novela de Carlos Fernández Gates sobre empatía, tecnología y los límites de sentir el dolor de otra persona.">
+  <meta name="description" content="Una palabra. Un dispositivo. Una pregunta incómoda. El Proyecto Empatía, novela de Carlos Fernández Gates sobre sentir lo que siente el otro.">
   <meta name="theme-color" content="#f5f3ee">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <link rel="canonical" href="https://xn--elproyectoempata-nsb.com/">
   <link rel="sitemap" type="application/xml" href="/sitemap.xml">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_PE">
   <meta property="og:site_name" content="El Proyecto Empatía">
-  <meta property="og:title" content="El Proyecto Empatía | Novela de Carlos Fernández Gates">
-  <meta property="og:description" content="Una novela sobre empatía, tecnología y los límites de sentir el dolor de otra persona.">
+  <meta property="og:title" content="El Proyecto Empatía | Una novela de Carlos Fernández Gates">
+  <meta property="og:description" content="Una palabra. Un dispositivo. Una pregunta incómoda. Una novela de Carlos Fernández Gates sobre sentir lo que siente el otro.">
   <meta property="og:url" content="https://xn--elproyectoempata-nsb.com/">
   <meta property="og:image" content="https://xn--elproyectoempata-nsb.com/assets/hero-book.webp">
   <meta name="twitter:card" content="summary_large_image">
@@ -26,7 +28,7 @@
     "url":"https://xn--elproyectoempata-nsb.com/",
     "image":"https://xn--elproyectoempata-nsb.com/assets/hero-book.webp"
   }</script>
-  <title>El Proyecto Empatía | Carlos Fernández Gates</title>
+  <title>El Proyecto Empatía | Una novela de Carlos Fernández Gates</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
@@ -219,6 +221,8 @@
       left: calc(50% - 14px);
       z-index: 1;
     }
+    .story-heading { max-width: 900px; margin: 0 auto 40px; text-align: center; }
+    .story-heading h2 { margin: 10px 0 0; font: 300 clamp(38px, 4.2vw, 56px)/1.05 var(--serif); letter-spacing: -.025em; }
     .story-spread {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -320,6 +324,10 @@
     .meet h2 { max-width: 500px; margin: 10px 0 0; font: 300 clamp(38px, 4.4vw, 58px)/1.04 var(--serif); }
     .meet-copy { max-width: 500px; margin: 10px 0 0; font: 300 18px/1.55 var(--serif); }
     .meet-action { margin-top: 24px; }
+    .meet-action:disabled { cursor: not-allowed; opacity: .58; box-shadow: none; transform: none; }
+    .meet-note { display: block; margin-top: 10px; color: var(--muted); font: 400 11px/1.4 var(--sans); }
+    .form-notice { margin: 0 0 18px; color: var(--muted); font: 400 12px/1.5 var(--sans); }
+    .fragment-form :disabled { opacity: .62; cursor: not-allowed; }
 
     .author {
       display: grid;
@@ -327,9 +335,9 @@
       gap: clamp(35px, 7vw, 88px);
       align-items: center;
     }
-    .author-visual { position: relative; min-height: 420px; display: grid; align-items: end; justify-items: center; }
+    .author-visual { position: relative; min-height: 0; display: grid; align-items: center; justify-items: center; }
     .author-visual::before { content: ""; position: absolute; inset: 0; background: url("assets/neural-network.webp") center / contain no-repeat; opacity: .34; }
-    .author-photo { position: relative; width: 100%; height: 420px; object-fit: cover; object-position: center 25%; }
+    .author-photo { position: relative; width: min(100%, 460px); height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 28%; filter: grayscale(1); }
     .author-copy h2 { margin: 10px 0 26px; font: 300 clamp(38px, 4.2vw, 56px)/1.04 var(--serif); }
     .author-copy p { margin: 0 0 16px; font: 300 16px/1.65 var(--serif); }
     footer {
@@ -374,6 +382,8 @@
       .hero-visual { min-height: 0; margin-top: 28px; padding-bottom: 22px; }
       .hero-book { width: min(72vw, 300px); }
       .story { padding-block: 28px 38px; }
+      .story-heading { margin-bottom: 28px; text-align: left; }
+      .story-heading h2 { font-size: 37px; }
       .story-spread { grid-template-columns: minmax(0, 1fr); gap: 15px; padding: 8px 0 14px; }
       .story-spread p { font-size: 23px; }
       .story-spread p:first-child { padding-right: 0; }
@@ -395,8 +405,8 @@
       .fragment, .meet, .author { grid-template-columns: 1fr; gap: 24px; }
       .meet-action { margin-top: 18px; }
       .fragment-form { padding: 22px 18px; }
-      .author-visual { min-height: 0; height: 330px; order: 2; }
-      .author-photo { height: 330px; object-position: center 20%; }
+      .author-visual { min-height: 0; height: auto; order: 2; }
+      .author-photo { width: min(100%, 360px); height: auto; aspect-ratio: 4 / 5; object-position: center 28%; }
       .author-copy h2 { margin-bottom: 18px; font-size: 41px; }
       .author-copy p { font-size: 15px; }
       footer { display: block; }
@@ -420,7 +430,7 @@
     <section class="hero shell" id="inicio" aria-labelledby="hero-title">
       <div class="hero-copy">
         <p class="eyebrow">Una novela de Carlos Fernández Gates</p>
-        <h1 class="serif" id="hero-title">El primer dolor no era suyo. Aun así, lo sintió.</h1>
+        <h1 class="serif" id="hero-title">Una palabra. Un dispositivo. Una pregunta incómoda: ¿estás listo para sentir lo que siente el otro?</h1>
         <p class="hero-description serif">Un invento capaz de transmitir el dolor. Empresas dispuestas a pagar por él.</p>
         <div class="hero-actions">
           <a class="pill primary" href="#fragmento">Leer un fragmento <span class="arrow" aria-hidden="true">→</span></a>
@@ -434,19 +444,18 @@
       </div>
     </section>
 
-    <section class="story shell" id="historia" aria-label="La historia">
+    <section class="story shell" id="historia" aria-labelledby="story-title">
       <svg class="ornament story-ornament" viewBox="0 0 32 32" aria-hidden="true">
         <path d="M16 1v8M16 23v8M1 16h8M23 16h8M5.4 5.4l5.7 5.7m9.8 9.8 5.7 5.7m0-21.2-5.7 5.7m-9.8 9.8-5.7 5.7" fill="none" stroke="currentColor" stroke-width="1.25"/>
         <path d="M16 11.2c1.5 2.8 2 3.3 4.8 4.8-2.8 1.5-3.3 2-4.8 4.8-1.5-2.8-2-3.3-4.8-4.8 2.8-1.5 3.3-2 4.8-4.8Z" fill="none" stroke="currentColor" stroke-width="1.25"/>
       </svg>
-      <div class="story-spread">
-        <p class="serif">Andrés y sus amigos habían conseguido transmitir sensaciones físicas de una persona a otra.</p>
-        <p class="serif">Después de años de trabajo, su invento finalmente funcionaba.</p>
+      <div class="story-heading">
+        <p class="eyebrow">La historia</p>
+        <h2 class="serif" id="story-title">¿Qué pasaría si la empatía dejara de ser una metáfora?</h2>
       </div>
-      <div class="story-rule" aria-hidden="true"></div>
-      <div class="story-notes">
-        <p>Llevarla al mercado implicaba negociar con empresarios, enfrentar disputas legales y decidir quién podría utilizarla y con qué fines.</p>
-        <p>Algunas ofertas prometían llevar el invento a todo el mundo. Otras ponían en riesgo el control que sus creadores querían conservar sobre él.</p>
+      <div class="story-spread">
+        <p class="serif">Andrés Loli tiene 35 años, una vida construida entre Lima y Londres y una obsesión: crear el primer dispositivo capaz de transmitir, de cuerpo a cuerpo, lo que otra persona siente. Junto a sus mejores amigos —y con más fe que presupuesto— funda Akuela Innovations y logra lo imposible: que el dolor, el placer y la alegría de un desconocido se sientan como propios.</p>
+        <p class="serif">Pero cuando las grandes corporaciones llaman a la puerta, Andrés descubre que sentir lo que siente el otro es solo el principio. Lo difícil será decidir quién tiene derecho a sentirlo.<br><br>Una novela sobre la empatía llevada al límite: la historia de un invento que podría cambiar al mundo y de los amigos que apostaron todo por hacerlo real.</p>
       </div>
     </section>
 
@@ -476,7 +485,7 @@
         </article>
         <article class="edition">
           <div class="product-stage gift-stage">
-            <img class="gift-box-image" src="assets/edition-box.webp" alt="Estuche rígido cerrado de la edición numerada, en azul índigo con filamentos dorados">
+            <img class="gift-box-image" src="assets/dedicated-signed.jpg" alt="Ejemplar de El Proyecto Empatía abierto en una página dedicada y firmada por Carlos Fernández Gates">
           </div>
           <div class="edition-info">
             <div>
@@ -497,16 +506,17 @@
         <p class="eyebrow">Una muestra del libro</p>
         <h2 class="serif" id="fragment-title">Entra en la historia desde la primera página.</h2>
         <p>Déjanos tu nombre y correo para recibir el fragmento de <i>El Proyecto Empatía</i>.</p>
+        <p class="form-notice">El registro todavía no está conectado. Tus datos no se almacenan y el fragmento no se envía automáticamente.</p>
       </div>
       <form class="fragment-form" id="sampleForm">
         <label>Nombre
-          <input type="text" name="nombre" autocomplete="given-name" required>
+          <input type="text" name="nombre" autocomplete="given-name" required disabled>
         </label>
         <label>Correo electrónico
-          <input type="email" name="email" autocomplete="email" required>
+          <input type="email" name="email" autocomplete="email" required disabled>
         </label>
-        <label class="consent"><input type="checkbox" name="newsletter"> Quiero recibir novedades sobre el libro (opcional).</label>
-        <button class="pill primary" type="submit">Leer el fragmento <span class="arrow" aria-hidden="true">→</span></button>
+        <label class="consent"><input type="checkbox" name="newsletter" disabled> Quiero recibir novedades sobre el libro (opcional).</label>
+        <button class="pill primary" type="submit" disabled>Próximamente</button>
         <p class="form-status" id="formStatus" aria-live="polite"></p>
       </form>
     </section>
@@ -518,8 +528,9 @@
           <h2 class="serif" id="meet-title">Una conversación fuera de las páginas.</h2>
         </div>
         <div>
-          <p class="meet-copy">Un encuentro con Carlos Fernández Gates para conversar sobre <i>El Proyecto Empatía</i>, cómo surgió la idea de la novela y de qué manera su experiencia profesional encontró un lugar en la ficción.</p>
-          <a class="pill primary meet-action" href="https://wa.me/51975146040?text=Hola%2C%20quiero%20participar%20en%20el%20Meet%20%26%20Greet%20de%20El%20Proyecto%20Empat%C3%ADa" target="_blank" rel="noopener">Participa <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="meet-copy">Estamos preparando una dinámica para que los lectores puedan participar en un encuentro con Carlos Fernández Gates. Pronto publicaremos las condiciones y el canal de ventas.</p>
+          <button class="pill primary meet-action" type="button" disabled>Participa <span class="arrow" aria-hidden="true">→</span></button>
+          <small class="meet-note">El WhatsApp de ventas está pendiente de confirmar.</small>
         </div>
       </div>
     </section>
@@ -533,7 +544,7 @@
         <p>Tras publicar <i>Temas de Inversión Extranjera y Derecho Empresarial</i> con Editorial Palestra, da el salto a la ficción con <i>El Proyecto Empatía</i>, una historia que lleva su experiencia profesional al terreno de la imaginación.</p>
       </div>
       <div class="author-visual">
-        <img class="author-photo" src="assets/author-cutout.webp" alt="Retrato editorial en blanco y negro de Carlos Fernández Gates" loading="lazy">
+        <img class="author-photo" src="assets/author-photo.webp" alt="Carlos Fernández Gates en su estudio, junto a libros y su computadora" loading="lazy">
       </div>
     </section>
   </main>
