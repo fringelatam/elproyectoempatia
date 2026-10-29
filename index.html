@@ -337,7 +337,7 @@
     }
     .author-visual { position: relative; min-height: 0; display: grid; align-items: center; justify-items: center; }
     .author-visual::before { content: ""; position: absolute; inset: 0; background: url("assets/neural-network.webp") center / contain no-repeat; opacity: .34; }
-    .author-photo { position: relative; width: min(100%, 460px); height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 28%; filter: grayscale(1); }
+    .author-photo { position: relative; width: min(100%, 460px); height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 28%; filter: saturate(.72) contrast(.98); }
     .author-copy h2 { margin: 10px 0 26px; font: 300 clamp(38px, 4.2vw, 56px)/1.04 var(--serif); }
     .author-copy p { margin: 0 0 16px; font: 300 16px/1.65 var(--serif); }
     footer {
@@ -505,18 +505,20 @@
       <div class="fragment-copy">
         <p class="eyebrow">Una muestra del libro</p>
         <h2 class="serif" id="fragment-title">Entra en la historia desde la primera página.</h2>
-        <p>Déjanos tu nombre y correo para recibir el fragmento de <i>El Proyecto Empatía</i>.</p>
-        <p class="form-notice">El registro todavía no está conectado. Tus datos no se almacenan y el fragmento no se envía automáticamente.</p>
+        <p>Déjanos tu nombre y correo para solicitar el primer capítulo de <i>El Proyecto Empatía</i>.</p>
+        <p class="form-notice">Recibirás una respuesta de empatia@elproyectoempatia.com. Tus datos se usarán solo para atender esta solicitud.</p>
       </div>
-      <form class="fragment-form" id="sampleForm">
+      <form class="fragment-form" id="sampleForm" action="send-fragment.php" method="post">
         <label>Nombre
-          <input type="text" name="nombre" autocomplete="given-name" required disabled>
+          <input type="text" name="nombre" autocomplete="given-name" maxlength="120" required>
         </label>
         <label>Correo electrónico
-          <input type="email" name="email" autocomplete="email" required disabled>
+          <input type="email" name="email" autocomplete="email" required>
         </label>
-        <label class="consent"><input type="checkbox" name="newsletter" disabled> Quiero recibir novedades sobre el libro (opcional).</label>
-        <button class="pill primary" type="submit" disabled>Próximamente</button>
+        <label class="honeypot" aria-hidden="true">Empresa
+          <input type="text" name="company" tabindex="-1" autocomplete="off">
+        </label>
+        <button class="pill primary" type="submit">Solicitar el capítulo <span class="arrow" aria-hidden="true">→</span></button>
         <p class="form-status" id="formStatus" aria-live="polite"></p>
       </form>
     </section>
@@ -528,9 +530,9 @@
           <h2 class="serif" id="meet-title">Una conversación fuera de las páginas.</h2>
         </div>
         <div>
-          <p class="meet-copy">Estamos preparando una dinámica para que los lectores puedan participar en un encuentro con Carlos Fernández Gates. Pronto publicaremos las condiciones y el canal de ventas.</p>
-          <button class="pill primary meet-action" type="button" disabled>Participa <span class="arrow" aria-hidden="true">→</span></button>
-          <small class="meet-note">El WhatsApp de ventas está pendiente de confirmar.</small>
+          <p class="meet-copy">Participa en el sorteo de un encuentro con Carlos Fernández Gates. Envía por WhatsApp tu comprobante de compra para registrarte.</p>
+          <a class="pill primary meet-action" href="https://wa.me/51975146040?text=Hola%2C%20quiero%20participar%20en%20el%20sorteo%20del%20Meet%20%26%20Greet%20de%20El%20Proyecto%20Empat%C3%ADa.%20Compr%C3%A9%20el%20libro%20y%20quiero%20enviar%20mi%20comprobante." target="_blank" rel="noopener">Participa <span class="arrow" aria-hidden="true">→</span></a>
+          <small class="meet-note">Comparte tu comprobante en el chat para participar.</small>
         </div>
       </div>
     </section>
@@ -564,12 +566,29 @@
     }
     document.querySelectorAll(".wa-button").forEach((button) => {
       button.addEventListener("click", () => {
-        showNotice("El botón está listo. Falta conectar el número de WhatsApp de ventas para abrir el chat correcto.");
+        const text = `Hola, quiero comprar ${button.dataset.edition} de El Proyecto Empatía.`;
+        window.open(`https://wa.me/51975146040?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
       });
     });
-    document.getElementById("sampleForm").addEventListener("submit", (event) => {
+    document.getElementById("sampleForm").addEventListener("submit", async (event) => {
       event.preventDefault();
-      showNotice("El formulario está diseñado. Falta integrar el fragmento autorizado y el destino del registro. No se guardaron tus datos.");
+      const form = event.currentTarget;
+      const submit = form.querySelector('button[type="submit"]');
+      const label = submit.innerHTML;
+      submit.disabled = true;
+      submit.textContent = "Enviando…";
+      try {
+        const response = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.message || "No se pudo enviar la solicitud.");
+        showNotice(result.message);
+        form.reset();
+      } catch (error) {
+        showNotice(error.message || "No se pudo enviar la solicitud. Inténtalo nuevamente.");
+      } finally {
+        submit.disabled = false;
+        submit.innerHTML = label;
+      }
     });
   </script>
 </body>
