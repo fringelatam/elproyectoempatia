@@ -178,18 +178,32 @@
       cursor: pointer;
       transition: background-color .18s ease, color .18s ease, transform .18s ease;
     }
-    .pill { transition: background-color .22s ease, color .22s ease, transform .22s ease, box-shadow .22s ease; }
-    .pill:hover { transform: translateY(-2px); box-shadow: 0 7px 18px rgba(45,42,89,.14); }
-    .pill:active { transform: translateY(0) scale(.98); box-shadow: none; }
-    .nav a { transition: color .2s ease, text-decoration-color .2s ease; }
-    .edition { transition: transform .28s ease, border-color .28s ease, box-shadow .28s ease; }
-    .edition:hover { transform: translateY(-4px); border-color: #b7afc8; box-shadow: 0 12px 28px rgba(45,42,89,.08); }
+    .pill { transition: background-color .22s ease, color .22s ease, transform .22s ease; }
+    .pill:hover { transform: translateY(-2px); }
+    .pill:active { transform: translateY(0) scale(.98); }
+    .nav a { position: relative; transition: color .2s ease; }
+    .nav a::after { content: ""; position: absolute; right: 0; bottom: 7px; left: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .22s ease; }
+    .nav a:hover::after, .nav a:focus-visible::after, .nav a[aria-current="location"]::after { transform: scaleX(1); }
+    .edition { transition: border-color .24s ease; }
+    .edition:hover, .edition:focus-within { border-color: #aaa2bd; }
+    .edition-info h3 { transition: color .2s ease; }
+    .edition:hover .edition-info h3, .edition:focus-within .edition-info h3 { color: var(--indigo); }
+    .edition-price { transition: transform .2s ease; }
+    .edition:hover .edition-price, .edition:focus-within .edition-price { transform: translateY(-2px); }
     .hero-book img { transition: transform .45s cubic-bezier(.2,.7,.2,1); }
-    .hero-book:hover img { transform: translateY(-4px) rotate(-.4deg); }
+    
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; } }
     .pill.primary { color: white; background: var(--indigo); }
     .pill.primary:hover { background: var(--indigo-deep); }
-    .pill .arrow { font-size: 17px; line-height: 1; }
+    .pill .arrow { font-size: 17px; line-height: 1; transition: transform .2s ease; }
+    .pill:hover .arrow, .pill:focus-visible .arrow { transform: translateX(4px); }
+    .pill[data-state="sending"] { cursor: progress; }
+    .form-status[data-state="success"] { color: var(--indigo); }
+    .form-status[data-state="error"] { color: #8b3535; }
+    @media (prefers-reduced-motion: no-preference) {
+      .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
+      .reveal.is-visible { opacity: 1; transform: translateY(0); }
+    }
     .hero-visual {
       position: relative;
       min-width: 0;
@@ -311,6 +325,7 @@
     .fragment-form { max-width: 500px; padding: 28px; border: 1px solid var(--line); background: rgba(255,253,250,.55); }
     .fragment-form label { display: block; margin-bottom: 16px; color: var(--muted); font: 500 10px/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
     .fragment-form input[type="text"], .fragment-form input[type="email"], .fragment-form input[type="tel"], .fragment-form select, .fragment-form textarea {
+      transition: border-color .18s ease, background-color .18s ease;
       width: 100%;
       min-height: 46px;
       margin-top: 7px;
@@ -321,6 +336,7 @@
       background: #fffdfa;
       font: 400 15px/1.3 var(--sans);
     }
+    .fragment-form input:focus-visible, .fragment-form select:focus-visible, .fragment-form textarea:focus-visible { border-color: var(--indigo); background-color: #fff; }
     .fragment-form textarea { min-height: 94px; resize: vertical; }
     .fragment-form select { appearance: auto; }
     .fragment-form [hidden] { display: none!important; }
@@ -617,6 +633,7 @@
       notice.classList.add("is-visible");
       window.setTimeout(() => notice.classList.remove("is-visible"), 5000);
     }
+
     const editionSelect = document.getElementById("editionSelect");
     const dedicationField = document.getElementById("dedicationField");
     function updateDedicationField() {
@@ -626,33 +643,86 @@
     }
     editionSelect.addEventListener("change", updateDedicationField);
     updateDedicationField();
+
     document.querySelectorAll(".order-link").forEach((link) => {
       link.addEventListener("click", () => {
         editionSelect.value = link.dataset.edition;
         updateDedicationField();
       });
     });
+
+    const navLinks = [...document.querySelectorAll(".nav a")];
+    const navTargets = navLinks
+      .map((link) => ({ link, target: document.querySelector(link.getAttribute("href")) }))
+      .filter((item) => item.target);
+    if ("IntersectionObserver" in window && navTargets.length) {
+      const navObserver = new IntersectionObserver((entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (!visible.length) return;
+        const current = visible.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        navLinks.forEach((link) => {
+          if (link.getAttribute("href") === "#" + current.target.id) link.setAttribute("aria-current", "location");
+          else link.removeAttribute("aria-current");
+        });
+      }, { rootMargin: "-18% 0px -68% 0px", threshold: 0 });
+      navTargets.forEach(({ target }) => navObserver.observe(target));
+    }
+
+    if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      const revealItems = document.querySelectorAll("main > .story, main > .section");
+      revealItems.forEach((item) => item.classList.add("reveal"));
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08 });
+      revealItems.forEach((item) => revealObserver.observe(item));
+    }
+
     document.querySelectorAll("#sampleForm, #orderForm").forEach((form) => {
       form.addEventListener("submit", async (event) => {
         event.preventDefault();
-      const submit = form.querySelector('button[type="submit"]');
-      const label = submit.innerHTML;
-      submit.disabled = true;
-      submit.textContent = "Enviando…";
-      try {
-        const response = await fetch(form.action, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } });
-        const result = await response.json();
-        if (!response.ok || !result.ok) throw new Error(result.message || "No se pudo enviar la solicitud.");
-        showNotice(result.message);
-        form.reset();
-      } catch (error) {
-        showNotice(error.message || "No se pudo enviar la solicitud. Inténtalo nuevamente.");
-      } finally {
-        submit.disabled = false;
-        submit.innerHTML = label;
-      }
+        const submit = form.querySelector('button[type="submit"]');
+        const status = form.querySelector(".form-status");
+        const label = submit.innerHTML;
+        submit.disabled = true;
+        submit.dataset.state = "sending";
+        submit.textContent = "Enviando…";
+        if (status) {
+          status.dataset.state = "sending";
+          status.textContent = "Enviando tu solicitud…";
+        }
+        try {
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: new FormData(form),
+            headers: { Accept: "application/json" }
+          });
+          const result = await response.json();
+          if (!response.ok || !result.ok) throw new Error(result.message || "No se pudo enviar la solicitud.");
+          showNotice(result.message);
+          if (status) {
+            status.dataset.state = "success";
+            status.textContent = result.message;
+          }
+          form.reset();
+          updateDedicationField();
+        } catch (error) {
+          const message = error.message || "No se pudo enviar la solicitud. Inténtalo nuevamente.";
+          showNotice(message);
+          if (status) {
+            status.dataset.state = "error";
+            status.textContent = message;
+          }
+        } finally {
+          submit.disabled = false;
+          delete submit.dataset.state;
+          submit.innerHTML = label;
+        }
       });
     });
-  </script>
-</body>
+  </script></body>
 </html>
