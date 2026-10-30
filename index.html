@@ -296,7 +296,7 @@
     .edition-info { display: grid; flex: 1; grid-template-columns: minmax(0, 1fr) 164px; align-items: end; gap: 24px; padding: 24px 16px 12px; }
     .edition-info h3 { margin: 0; font: 300 27px/1.15 var(--serif); }
     .edition-info p { max-width: 330px; margin: 7px 0 0; color: var(--muted); font: 300 15px/1.45 var(--serif); }
-    .edition-price { display: block; margin-top: 10px; color: var(--indigo); font: 500 14px/1.3 var(--sans); }
+    .edition-price { display: block; margin: 0 0 7px; color: var(--indigo); font: 500 17px/1.3 var(--sans); }
     .purchase { width: 164px; display: grid; justify-items: center; gap: 7px; }
     .purchase small { padding-left: 2px; color: var(--muted); font: 400 13px/1.3 var(--sans); }
     .purchase .pill { width: 164px; min-width: 164px; }
@@ -488,12 +488,13 @@
           </div>
           <div class="edition-info">
             <div>
+              <span class="edition-price">S/59</span>
               <h3 class="serif">Edición estándar</h3>
               <p>La novela en su edición regular.</p>
             </div>
             <div class="purchase">
               <a class="pill primary order-link" href="#pedido" data-edition="regular">Comprar <span class="arrow" aria-hidden="true">→</span></a>
-              <small>S/ 59</small>
+              
             </div>
           </div>
         </article>
@@ -503,13 +504,14 @@
           </div>
           <div class="edition-info">
             <div>
+              <span class="edition-price">S/64</span>
               <h3 class="serif">Edición firmada</h3>
               <p>Firma y dedicatoria opcional para regalar.</p>
               
             </div>
             <div class="purchase">
               <a class="pill primary order-link" href="#pedido" data-edition="firmada">Comprar <span class="arrow" aria-hidden="true">→</span></a>
-              <small>S/ 64</small>
+              
             </div>
           </div>
         </article>
@@ -595,7 +597,7 @@
         <p class="eyebrow">El autor</p>
         <h2 class="serif" id="author-title">Carlos Fernández Gates</h2>
         <p>Carlos Fernández Gates vivió y trabajó en Londres, ciudad donde transcurre una parte importante de <i>El Proyecto Empatía</i>. Su experiencia en el derecho corporativo y los negocios internacionales le ha permitido conocer de cerca el mundo de las negociaciones, los contratos y los intereses empresariales que hoy forman parte de su novela.</p>
-        <p>Abogado de formación internacional, Carlos Fernández Gates ha desarrollado su carrera en Lima y Londres. Egresado de la Pontificia Universidad Católica del Perú, obtuvo con mérito su máster en Derecho Comercial e Internacional en la Universidad de Buckingham, Inglaterra. En Londres trabajó en la sede principal de la International Bar Association. Fue director del Área Legal Corporativa de PwC Perú. Actualmente es Consejero Comercial del gobierno de Nueva Zelanda en Perú, consultor experto para Business Finland y profesor de posgrado en ESAN Business School.</p>
+        <p>Abogado de formación internacional, Carlos Fernández Gates ha desarrollado su carrera en Lima y Londres. Egresado de la Pontificia Universidad Católica del Perú, obtuvo con mérito su máster en Derecho Comercial e Internacional en la Universidad de Buckingham, Inglaterra. En Londres trabajó en la sede principal de la International Bar Association. Fue director del Área Legal Corporativa de PwC Perú y hoy dirige su propia firma, el Estudio Fernández Gates. Además, es consejero comercial del Gobierno de Nueva Zelanda en el Perú y profesor de Derecho Corporativo y Corporate Compliance en ESAN. Autor de <i>Temas de inversión extranjera y derecho empresarial</i>, es Caballero de la Orden del Camino de Santiago.</p>
         <p>Después de publicar <i>Temas de inversión extranjera y derecho empresarial</i> con Palestra Editores, da el salto a la ficción con <i>El Proyecto Empatía</i>, una historia que lleva su experiencia profesional al terreno de la imaginación.</p>
       </div>
       <div class="author-visual">
