@@ -288,6 +288,7 @@
     .edition-info { display: grid; flex: 1; grid-template-columns: minmax(0, 1fr) 164px; align-items: end; gap: 24px; padding: 24px 16px 12px; }
     .edition-info h3 { margin: 0; font: 300 27px/1.15 var(--serif); }
     .edition-info p { max-width: 330px; margin: 7px 0 0; color: var(--muted); font: 300 15px/1.45 var(--serif); }
+    .edition-price { display: block; margin-top: 10px; color: var(--indigo); font: 500 14px/1.3 var(--sans); }
     .purchase { width: 164px; display: grid; justify-items: center; gap: 7px; }
     .purchase small { padding-left: 2px; color: var(--muted); font: 400 10px/1.2 var(--sans); }
     .purchase .pill { width: 164px; min-width: 164px; }
@@ -301,7 +302,7 @@
     .fragment-copy p { max-width: 470px; margin: 0; color: #46423d; font: 300 18px/1.55 var(--serif); }
     .fragment-form { max-width: 500px; padding: 28px; border: 1px solid var(--line); background: rgba(255,253,250,.55); }
     .fragment-form label { display: block; margin-bottom: 16px; color: var(--muted); font: 500 10px/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
-    .fragment-form input[type="text"], .fragment-form input[type="email"] {
+    .fragment-form input[type="text"], .fragment-form input[type="email"], .fragment-form input[type="tel"], .fragment-form select, .fragment-form textarea {
       width: 100%;
       min-height: 46px;
       margin-top: 7px;
@@ -312,6 +313,10 @@
       background: #fffdfa;
       font: 400 15px/1.3 var(--sans);
     }
+    .fragment-form textarea { min-height: 94px; resize: vertical; }
+    .fragment-form select { appearance: auto; }
+    .fragment-form [hidden] { display: none!important; }
+    .honeypot { position: absolute!important; left: -10000px!important; width: 1px!important; height: 1px!important; overflow: hidden!important; }
     .consent { display: flex!important; align-items: start; gap: 9px; margin: 18px 0 20px!important; color: #55514c!important; font: 400 12px/1.5 var(--sans)!important; letter-spacing: 0!important; text-transform: none!important; }
     .consent input { margin-top: 3px; accent-color: var(--indigo); }
     .form-status { min-height: 20px; margin: 14px 0 0; color: var(--muted); font: 400 12px/1.5 var(--sans); }
@@ -328,6 +333,7 @@
     .meet-note { display: block; margin-top: 10px; color: var(--muted); font: 400 11px/1.4 var(--sans); }
     .form-notice { margin: 0 0 18px; color: var(--muted); font: 400 12px/1.5 var(--sans); }
     .fragment-form :disabled { opacity: .62; cursor: not-allowed; }
+    .order-note { max-width: 470px; margin-top: 14px!important; font: 400 12px/1.5 var(--sans)!important; }
 
     .author {
       display: grid;
@@ -478,8 +484,8 @@
               <p>La novela en su edición regular.</p>
             </div>
             <div class="purchase">
-              <button class="pill primary wa-button" type="button" data-edition="Edición estándar">Comprar <span class="arrow" aria-hidden="true">→</span></button>
-              <small>Por WhatsApp</small>
+              <a class="pill primary order-link" href="#pedido" data-edition="regular">Comprar <span class="arrow" aria-hidden="true">→</span></a>
+              <small>59 soles</small>
             </div>
           </div>
         </article>
@@ -489,16 +495,52 @@
           </div>
           <div class="edition-info">
             <div>
-              <h3 class="serif">Edición dedicada y numerada</h3>
-              <p>Un ejemplar dedicado por Carlos Fernández Gates y numerado.</p>
+              <h3 class="serif">Edición firmada</h3>
+              <p>Firma y dedicatoria opcional para regalar.</p>
+              <span class="edition-price">64 soles, 5 soles adicionales</span>
             </div>
             <div class="purchase">
-              <button class="pill primary wa-button" type="button" data-edition="Edición dedicada y numerada">Comprar <span class="arrow" aria-hidden="true">→</span></button>
-              <small>Por WhatsApp</small>
+              <a class="pill primary order-link" href="#pedido" data-edition="firmada">Comprar <span class="arrow" aria-hidden="true">→</span></a>
+              <small>Precio total: 64 soles</small>
             </div>
           </div>
         </article>
       </div>
+    </section>
+
+    <section class="section shell fragment" id="pedido" aria-labelledby="order-title">
+      <div class="fragment-copy">
+        <p class="eyebrow">Pedidos</p>
+        <h2 class="serif" id="order-title">Elige tu edición.</h2>
+        <p>La edición regular cuesta 59 soles. Puedes pedirla firmada por 5 soles adicionales, con una dedicatoria si es para regalo.</p>
+        <p class="order-note">Enviaremos tu solicitud a empatia@elproyectoempatia.com. Te contactaremos para coordinar el pago y la entrega.</p>
+      </div>
+      <form class="fragment-form" id="orderForm" action="send-order.php" method="post">
+        <label>Nombre completo
+          <input type="text" name="nombre" autocomplete="name" maxlength="120" required>
+        </label>
+        <label>Correo electrónico
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label>Teléfono de contacto
+          <input type="tel" name="telefono" autocomplete="tel" maxlength="25" required>
+        </label>
+        <label>Edición
+          <select name="edicion" id="editionSelect" required>
+            <option value="regular">Regular, 59 soles</option>
+            <option value="firmada">Firmada, 64 soles</option>
+          </select>
+        </label>
+        <label id="dedicationField" hidden>Dedicatoria (opcional, si es para regalo)
+          <textarea name="dedicatoria" maxlength="400" placeholder="Escribe aquí el texto de la dedicatoria"></textarea>
+        </label>
+        <label class="consent"><input type="checkbox" name="consentimiento" value="si" required> Autorizo el uso de mis datos para atender este pedido.</label>
+        <label class="honeypot" aria-hidden="true">Empresa
+          <input type="text" name="company" tabindex="-1" autocomplete="off">
+        </label>
+        <button class="pill primary" type="submit">Enviar solicitud <span class="arrow" aria-hidden="true">→</span></button>
+        <p class="form-status" aria-live="polite"></p>
+      </form>
     </section>
 
     <section class="section shell fragment" id="fragmento" aria-labelledby="fragment-title">
@@ -530,9 +572,9 @@
           <h2 class="serif" id="meet-title">Una conversación fuera de las páginas.</h2>
         </div>
         <div>
-          <p class="meet-copy">Participa en el sorteo de un encuentro con Carlos Fernández Gates. Envía por WhatsApp tu comprobante de compra para registrarte.</p>
-          <a class="pill primary meet-action" href="https://wa.me/51975146040?text=Hola%2C%20quiero%20participar%20en%20el%20sorteo%20del%20Meet%20%26%20Greet%20de%20El%20Proyecto%20Empat%C3%ADa.%20Compr%C3%A9%20el%20libro%20y%20quiero%20enviar%20mi%20comprobante." target="_blank" rel="noopener">Participa <span class="arrow" aria-hidden="true">→</span></a>
-          <small class="meet-note">Comparte tu comprobante en el chat para participar.</small>
+          <p class="meet-copy">Participa en el sorteo de un encuentro con Carlos Fernández Gates. El canal oficial para pedidos y registro se anunciará próximamente.</p>
+          <a class="pill primary meet-action" href="mailto:empatia@elproyectoempatia.com?subject=Consulta%20sobre%20Meet%20%26%20Greet">Consultar <span class="arrow" aria-hidden="true">→</span></a>
+          <small class="meet-note">También puedes escribir a empatia@elproyectoempatia.com.</small>
         </div>
       </div>
     </section>
@@ -541,9 +583,9 @@
       <div class="author-copy">
         <p class="eyebrow">El autor</p>
         <h2 class="serif" id="author-title">Carlos Fernández Gates</h2>
-        <p>Carlos Fernández Gates vivió y trabajó en Londres, ciudad donde transcurre una parte importante de <i>El Proyecto Empatía</i>. Su experiencia en el derecho corporativo y los negocios internacionales le permitió conocer de cerca el mundo de las negociaciones, los contratos y los intereses empresariales que hoy forman parte de su novela.</p>
-        <p>Abogado por la Pontificia Universidad Católica del Perú y máster en Derecho Comercial Internacional por la Universidad de Buckingham, dirigió el Área Legal Corporativa de PwC Perú. Actualmente es Consejero Comercial del gobierno de Nueva Zelanda en Perú, consultor experto para Business Finland y profesor de posgrado en ESAN Business School.</p>
-        <p>Tras publicar <i>Temas de Inversión Extranjera y Derecho Empresarial</i> con Editorial Palestra, da el salto a la ficción con <i>El Proyecto Empatía</i>, una historia que lleva su experiencia profesional al terreno de la imaginación.</p>
+        <p>Carlos Fernández Gates vivió y trabajó en Londres, ciudad donde transcurre una parte importante de <i>El Proyecto Empatía</i>. Su experiencia en el derecho corporativo y los negocios internacionales le ha permitido conocer de cerca el mundo de las negociaciones, los contratos y los intereses empresariales que hoy forman parte de su novela.</p>
+        <p>Abogado de formación internacional, Carlos Fernández Gates ha desarrollado su carrera en Lima y Londres. Egresado de la Pontificia Universidad Católica del Perú, obtuvo con mérito su máster en Derecho Comercial e Internacional en la Universidad de Buckingham, Inglaterra. En Londres trabajó en la sede principal de la International Bar Association. Fue director del Área Legal Corporativa de PwC Perú. Actualmente es Consejero Comercial del gobierno de Nueva Zelanda en Perú, consultor experto para Business Finland y profesor de posgrado en ESAN Business School.</p>
+        <p>Después de publicar <i>Temas de inversión extranjera y derecho empresarial</i> con Palestra Editores, da el salto a la ficción con <i>El Proyecto Empatía</i>, una historia que lleva su experiencia profesional al terreno de la imaginación.</p>
       </div>
       <div class="author-visual">
         <img class="author-photo" src="assets/author-photo.webp" alt="Carlos Fernández Gates en su estudio, junto a libros y su computadora" loading="lazy">
@@ -564,15 +606,24 @@
       notice.classList.add("is-visible");
       window.setTimeout(() => notice.classList.remove("is-visible"), 5000);
     }
-    document.querySelectorAll(".wa-button").forEach((button) => {
-      button.addEventListener("click", () => {
-        const text = `Hola, quiero comprar ${button.dataset.edition} de El Proyecto Empatía.`;
-        window.open(`https://wa.me/51975146040?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
+    const editionSelect = document.getElementById("editionSelect");
+    const dedicationField = document.getElementById("dedicationField");
+    function updateDedicationField() {
+      const signed = editionSelect.value === "firmada";
+      dedicationField.hidden = !signed;
+      if (!signed) dedicationField.querySelector("textarea").value = "";
+    }
+    editionSelect.addEventListener("change", updateDedicationField);
+    updateDedicationField();
+    document.querySelectorAll(".order-link").forEach((link) => {
+      link.addEventListener("click", () => {
+        editionSelect.value = link.dataset.edition;
+        updateDedicationField();
       });
     });
-    document.getElementById("sampleForm").addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const form = event.currentTarget;
+    document.querySelectorAll("#sampleForm, #orderForm").forEach((form) => {
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
       const submit = form.querySelector('button[type="submit"]');
       const label = submit.innerHTML;
       submit.disabled = true;
@@ -589,6 +640,7 @@
         submit.disabled = false;
         submit.innerHTML = label;
       }
+      });
     });
   </script>
 </body>
