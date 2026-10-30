@@ -38,7 +38,7 @@
     "inLanguage":"es",
     "description":"Una novela sobre empatía, tecnología y los límites de sentir el dolor de otra persona.",
     "url":"https://elproyectoempatia.com/",
-    "image":"https://elproyectoempatia.com/assets/hero-book.webp"
+    "image":"https://elproyectoempatia.com/assets/cover-final.webp"
   }</script>
   <title>El Proyecto Empatía | Una novela de Carlos Fernández Gates</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -215,12 +215,58 @@
       display: grid;
       place-items: center;
     }
-    .hero-book {
+    .book-cover {
       position: relative;
+      isolation: isolate;
+      filter: drop-shadow(14px 22px 18px rgba(45, 38, 30, .2));
+      transition: transform .3s ease, filter .3s ease;
+    }
+    .book-cover:hover {
+      transform: translateY(-3px);
+      filter: drop-shadow(14px 26px 20px rgba(45, 38, 30, .22));
+    }
+    .book-cover::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 1%;
+      right: -4%;
+      width: 5%;
+      height: 98%;
+      background: repeating-linear-gradient(90deg, #cfc4ad 0 1px, #f4eddf 1px 2px, #e0d5c2 2px 3px);
+      transform: skewY(-2.5deg);
+    }
+    .book-cover::after {
+      content: "";
+      position: absolute;
+      z-index: -2;
+      top: 1%;
+      right: -5%;
+      width: 5%;
+      height: 98%;
+      background: #e8deca;
+      transform: skewY(-2.5deg);
+    }
+    .hero-book {
       width: clamp(300px, 35vw, 450px);
+      aspect-ratio: 1326 / 2048;
       margin: 0;
     }
-    .hero-book img { width: 100%; height: auto; filter: none; }
+    .book-cover img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: perspective(1400px) rotateY(-2deg);
+      transform-origin: left center;
+    }
+    .standard-book {
+      width: min(100%, 210px);
+      height: 280px;
+      aspect-ratio: 1326 / 2048;
+      margin: 0;
+    }
+    .standard-photo { width: 100%; height: 100%; object-fit: cover; }
     .ornament {
       width: 28px;
       height: 28px;
@@ -472,8 +518,8 @@
         </div>
       </div>
       <div class="hero-visual">
-        <figure class="hero-book">
-          <img src="assets/hero-book.webp" alt="Edición de tapa blanda de El Proyecto Empatía, vista de frente con el grosor fino de sus páginas visible" fetchpriority="high">
+        <figure class="hero-book book-cover">
+          <img src="assets/cover-final.webp" alt="Portada final de El Proyecto Empatía por Carlos Fernández Gates" fetchpriority="high">
         </figure>
       </div>
     </section>
@@ -504,7 +550,7 @@
       <div class="edition-grid">
         <article class="edition">
           <div class="product-stage">
-            <img class="standard-photo" src="assets/hero-book.webp" alt="Edición estándar de tapa blanda de El Proyecto Empatía con el borde de las páginas visible">
+            <figure class="standard-book book-cover"><img class="standard-photo" src="assets/cover-final.webp" alt="Portada final de la edición estándar de El Proyecto Empatía"></figure>
           </div>
           <div class="edition-info">
             <div>
@@ -543,7 +589,7 @@
         <p class="eyebrow">Pedidos</p>
         <h2 class="serif" id="order-title">Elige tu edición.</h2>
         <p>La edición regular cuesta S/59. La edición especial cuesta S/64 e incluye firma y dedicatoria opcional para regalar.</p>
-        <p class="order-note">Enviaremos tu solicitud a empatia@elproyectoempatia.com. Te contactaremos para coordinar el pago y la entrega.</p>
+        <p class="order-note">Enviaremos tu solicitud a empatia@elproyectoempatia.com. También puedes coordinar tu pedido por WhatsApp: <a href="https://wa.me/51922198480?text=Hola%2C%20quiero%20hacer%20un%20pedido%20de%20El%20Proyecto%20Empat%C3%ADa." target="_blank" rel="noopener noreferrer">+51 922 198 480</a>.</p>
       </div>
       <form class="fragment-form" id="orderForm" action="send-order.php" method="post">
         <label>Nombre completo
@@ -605,8 +651,8 @@
           <h2 class="serif" id="meet-title">Una conversación fuera de las páginas.</h2>
         </div>
         <div>
-          <p class="meet-copy">Participa en el sorteo de un encuentro con Carlos Fernández Gates. El canal oficial para pedidos y registro se anunciará próximamente.</p>
-          <a class="pill primary meet-action" href="mailto:empatia@elproyectoempatia.com?subject=Consulta%20sobre%20Meet%20%26%20Greet">Consultar <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="meet-copy">Participa en el sorteo de un encuentro con Carlos Fernández Gates. Escríbenos al WhatsApp oficial y te contamos cómo hacerlo.</p>
+          <a class="pill primary meet-action" href="https://wa.me/51922198480?text=Hola%2C%20quiero%20participar%20en%20el%20Meet%20%26%20Greet%20de%20El%20Proyecto%20Empat%C3%ADa." target="_blank" rel="noopener noreferrer">Participa <span class="arrow" aria-hidden="true">→</span></a>
           <small class="meet-note">También puedes escribir a empatia@elproyectoempatia.com.</small>
         </div>
       </div>
