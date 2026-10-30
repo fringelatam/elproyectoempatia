@@ -559,7 +559,7 @@
               <p>La novela en su edición regular.</p>
             </div>
             <div class="purchase">
-              <a class="pill primary order-link" href="#pedido" data-edition="regular">Comprar <span class="arrow" aria-hidden="true">→</span></a>
+              <a class="pill primary" href="https://wa.me/51922198480?text=Hola%2C%20quiero%20comprar%20la%20edici%C3%B3n%20est%C3%A1ndar%20de%20El%20Proyecto%20Empat%C3%ADa%20%28S%2F59%29." target="_blank" rel="noopener noreferrer">Comprar <span class="arrow" aria-hidden="true">→</span></a>
               
             </div>
           </div>
@@ -576,7 +576,7 @@
               
             </div>
             <div class="purchase">
-              <a class="pill primary order-link" href="#pedido" data-edition="firmada">Comprar <span class="arrow" aria-hidden="true">→</span></a>
+              <a class="pill primary" href="https://wa.me/51922198480?text=Hola%2C%20quiero%20comprar%20la%20edici%C3%B3n%20especial%20de%20El%20Proyecto%20Empat%C3%ADa%20%28S%2F64%29.%20Quisiera%20consultar%20la%20opci%C3%B3n%20de%20dedicatoria." target="_blank" rel="noopener noreferrer">Comprar <span class="arrow" aria-hidden="true">→</span></a>
               
             </div>
           </div>
@@ -693,13 +693,6 @@
     }
     editionSelect.addEventListener("change", updateDedicationField);
     updateDedicationField();
-
-    document.querySelectorAll(".order-link").forEach((link) => {
-      link.addEventListener("click", () => {
-        editionSelect.value = link.dataset.edition;
-        updateDedicationField();
-      });
-    });
 
     const navLinks = [...document.querySelectorAll(".nav a")];
     const navTargets = navLinks
