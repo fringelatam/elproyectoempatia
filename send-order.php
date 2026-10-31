@@ -32,6 +32,8 @@ if ($name === '' || strlen($name) > 480 || $profession === '' || strlen($profess
 }
 
 $price = $edition === 'firmada' ? 64 : 59;
+$delivery = 11;
+$total = $price + $delivery;
 $editionName = $edition === 'firmada' ? 'Edición especial, S/64' : 'Edición estándar, S/59';
 if ($edition !== 'firmada') $dedication = '';
 $safeName = htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -42,13 +44,13 @@ $safeEdition = htmlspecialchars($editionName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-
 $safeDedication = nl2br(htmlspecialchars($dedication !== '' ? $dedication : 'No solicitada', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
 $date = date('Y-m-d H:i:s T');
 $subject = 'Nueva solicitud de pedido, El Proyecto Empatía';
-$body = "Nueva solicitud de pedido\nNombre: {$name}\nCorreo: {$email}\nTeléfono: {$phone}\nProfesión: {$profession}\nEdición: {$editionName}\nPrecio: {$price} soles\nDedicatoria: " . ($dedication !== '' ? $dedication : 'No solicitada') . "\nFecha: {$date}";
-$html = '<p>Se recibió una nueva solicitud de pedido.</p><p><strong>Nombre:</strong> ' . $safeName . '<br><strong>Correo:</strong> ' . $safeEmail . '<br><strong>Teléfono:</strong> ' . $safePhone . '<br><strong>Profesión:</strong> ' . $safeProfession . '<br><strong>Edición:</strong> ' . $safeEdition . '<br><strong>Precio:</strong> S/' . $price . '<br><strong>Dedicatoria:</strong><br>' . $safeDedication . '<br><strong>Fecha:</strong> ' . htmlspecialchars($date, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p>';
+$body = "Nueva solicitud de pedido\nNombre: {$name}\nCorreo: {$email}\nTeléfono: {$phone}\nProfesión: {$profession}\nEdición: {$editionName}\nPrecio del libro: S/{$price}\nDelivery: S/{$delivery}\nTotal con delivery: S/{$total}\nDedicatoria: " . ($dedication !== '' ? $dedication : 'No solicitada') . "\nFecha: {$date}";
+$html = '<p>Se recibió una nueva solicitud de pedido.</p><p><strong>Nombre:</strong> ' . $safeName . '<br><strong>Correo:</strong> ' . $safeEmail . '<br><strong>Teléfono:</strong> ' . $safePhone . '<br><strong>Profesión:</strong> ' . $safeProfession . '<br><strong>Edición:</strong> ' . $safeEdition . '<br><strong>Precio del libro:</strong> S/' . $price . '<br><strong>Delivery:</strong> S/' . $delivery . '<br><strong>Total con delivery:</strong> S/' . $total . '<br><strong>Dedicatoria:</strong><br>' . $safeDedication . '<br><strong>Fecha:</strong> ' . htmlspecialchars($date, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p>';
 if (!empatia_send_mail('empatia@elproyectoempatia.com', $subject, $body, $html, $email)) {
     respond(502, ['ok' => false, 'message' => 'No pudimos enviar el pedido. Inténtalo nuevamente más tarde.']);
 }
 
-$confirmationText = "Hola {$name}:\n\nRecibimos tu solicitud de {$editionName}. El precio es S/{$price}. Te contactaremos para coordinar el pago y la entrega.\n";
-$confirmationHtml = '<p>Hola ' . $safeName . ':</p><p>Recibimos tu solicitud de <strong>' . $safeEdition . '</strong>, con un precio de <strong>S/' . $price . '</strong>. Te contactaremos para coordinar el pago y la entrega.</p>';
+$confirmationText = "Hola {$name}:\n\nRecibimos tu solicitud de {$editionName}. El libro cuesta S/{$price}, el delivery S/{$delivery} y el total es S/{$total}. Te contactaremos para coordinar el pago y la entrega.\n";
+$confirmationHtml = '<p>Hola ' . $safeName . ':</p><p>Recibimos tu solicitud de <strong>' . $safeEdition . '</strong>, con un precio de <strong>S/' . $price . '</strong>, más <strong>S/' . $delivery . '</strong> de delivery. El total es <strong>S/' . $total . '</strong>. Te contactaremos para coordinar el pago y la entrega.</p>';
 empatia_send_mail($email, 'Recibimos tu pedido de El Proyecto Empatía', $confirmationText, $confirmationHtml);
 respond(200, ['ok' => true, 'message' => 'Recibimos tu pedido. Te enviamos una confirmación por correo.']);
