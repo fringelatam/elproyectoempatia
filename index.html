@@ -134,13 +134,13 @@
       outline-offset: 4px;
     }
     .hero {
-      min-height: 620px;
+      min-height: 0;
       position: relative;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       align-items: center;
       gap: 64px;
-      padding-block: 58px 64px;
+      padding-block: 44px 48px;
     }
     .hero::before {
       content: "";
@@ -155,8 +155,8 @@
     .hero-copy { max-width: 640px; }
     .hero h1 {
       max-width: 790px;
-      margin: 28px 0 24px;
-      font: 300 clamp(48px, 4.9vw, 73px)/1.04 var(--serif);
+      margin: 24px 0 20px;
+      font: 300 clamp(48px, 4.55vw, 68px)/1.07 var(--serif);
       letter-spacing: -.025em;
     }
     .hero-description {
@@ -205,8 +205,8 @@
     .form-status[data-state="success"] { color: var(--indigo); }
     .form-status[data-state="error"] { color: #8b3535; }
     @media (prefers-reduced-motion: no-preference) {
-      .reveal { opacity: 0; transform: translateY(12px); transition: opacity .5s ease, transform .5s ease; }
-      .reveal.is-visible { opacity: 1; transform: translateY(0); }
+      .reveal { transform: translateY(6px); transition: transform .35s ease; }
+      .reveal.is-visible { transform: translateY(0); }
     }
     .hero-visual {
       position: relative;
@@ -248,7 +248,7 @@
       transform: skewY(-2.5deg);
     }
     .hero-book {
-      width: clamp(300px, 35vw, 450px);
+      width: clamp(280px, 27vw, 400px);
       aspect-ratio: 1326 / 2048;
       margin: 0;
     }
@@ -261,12 +261,11 @@
       transform-origin: left center;
     }
     .standard-book {
-      width: min(100%, 210px);
+      width: 181px;
       height: 280px;
       aspect-ratio: 1326 / 2048;
       margin: 0;
     }
-    .standard-photo { width: 100%; height: 100%; object-fit: cover; }
     .ornament {
       width: 28px;
       height: 28px;
@@ -294,7 +293,7 @@
       z-index: 1;
     }
     .story-heading { max-width: 900px; margin: 0 auto 40px; text-align: center; }
-    .story-heading h2 { margin: 10px 0 0; font: 300 clamp(38px, 4.2vw, 56px)/1.05 var(--serif); letter-spacing: -.025em; }
+    .story-heading h2 { margin: 10px 0 0; font: 300 clamp(38px, 4.2vw, 56px)/1.08 var(--serif); letter-spacing: -.025em; }
     .story-spread {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -320,23 +319,23 @@
     .section-head {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      align-items: end;
+      align-items: center;
       gap: clamp(48px, 8vw, 112px);
       margin-bottom: 44px;
     }
     .section-head h2 {
       max-width: 700px;
       margin: 10px 0 0;
-      font: 300 clamp(39px, 4.6vw, 62px)/1.02 var(--serif);
+      font: 300 clamp(39px, 4.6vw, 62px)/1.08 var(--serif);
       letter-spacing: -.035em;
     }
     .section-head > p {
       max-width: 520px;
-      margin: 0 0 8px;
+      margin: 0;
       color: var(--muted);
       font: 300 18px/1.55 var(--serif);
-      justify-self: center;
-      text-align: center;
+      justify-self: start;
+      text-align: left;
     }
     .edition-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(28px, 4vw, 56px); align-items: stretch; }
     .edition {
@@ -348,29 +347,30 @@
       background: rgba(255, 253, 250, .32);
     }
     .product-stage {
+      height: 300px;
       min-height: 300px;
       display: grid;
       place-items: center;
       overflow: hidden;
       background: transparent;
     }
-    .standard-photo { width: min(100%, 250px); height: 280px; object-fit: contain; }
-    .gift-stage { min-height: 300px; display: grid; place-items: center; padding: 12px; }
+    .standard-photo { width: 100%; height: 100%; object-fit: cover; }
+    .gift-stage { height: 300px; min-height: 300px; display: grid; place-items: center; padding: 12px; }
     .gift-box-image { width: min(100%, 560px); max-height: 285px; height: auto; object-fit: contain; }
     .edition-info { display: grid; flex: 1; grid-template-columns: minmax(0, 1fr) 164px; align-items: end; gap: 24px; padding: 24px 16px 12px; }
     .edition-info h3 { margin: 0; font: 300 27px/1.15 var(--serif); }
     .edition-info p { max-width: 330px; margin: 7px 0 0; color: var(--muted); font: 300 15px/1.45 var(--serif); }
     .edition-price { display: block; margin: 0 0 7px; color: var(--indigo); font: 500 17px/1.3 var(--sans); }
     .purchase { width: 164px; display: grid; justify-items: center; gap: 7px; }
-    .purchase small { padding-left: 2px; color: var(--muted); font: 400 13px/1.3 var(--sans); }
+    .purchase small { width: 100%; color: var(--muted); text-align: center; font: 400 13px/1.25 var(--sans); }
     .purchase .pill { width: 164px; min-width: 164px; }
     .fragment {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: clamp(36px, 8vw, 110px);
-      align-items: start;
+      align-items: center;
     }
-    .fragment-copy h2 { max-width: 550px; margin: 10px 0 18px; font: 300 clamp(38px, 4.4vw, 58px)/1.04 var(--serif); }
+    .fragment-copy h2 { max-width: 550px; margin: 10px 0 18px; font: 300 clamp(38px, 4.4vw, 58px)/1.08 var(--serif); }
     .fragment-copy p { max-width: 470px; margin: 0; color: #46423d; font: 300 18px/1.55 var(--serif); }
     .fragment-form { max-width: 500px; padding: 28px; border: 1px solid var(--line); background: rgba(255,253,250,.55); }
     .fragment-form label { display: block; margin-bottom: 16px; color: var(--muted); font: 500 10px/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
@@ -400,26 +400,26 @@
       gap: 42px;
       align-items: start;
     }
-    .meet h2 { max-width: 500px; margin: 10px 0 0; font: 300 clamp(38px, 4.4vw, 58px)/1.04 var(--serif); }
+    .meet h2 { max-width: 500px; margin: 10px 0 0; font: 300 clamp(38px, 4.4vw, 58px)/1.08 var(--serif); }
     .meet-copy { max-width: 500px; margin: 10px 0 0; font: 300 18px/1.55 var(--serif); }
     .meet-action { margin-top: 24px; }
     .meet-action:disabled { cursor: not-allowed; opacity: .58; box-shadow: none; transform: none; }
     .meet-note { display: block; margin-top: 10px; color: var(--muted); font: 400 11px/1.4 var(--sans); }
     .fragment-copy .form-notice { margin: 0 0 18px; color: var(--muted); font: 400 12px/1.5 var(--sans); }
     .fragment-form :disabled { opacity: .62; cursor: not-allowed; }
-    .order-note { max-width: 470px; margin-top: 14px!important; font: 400 12px/1.5 var(--sans)!important; }
+    .order-note { max-width: 470px; margin-top: 14px!important; font: 400 12px/1.5 var(--sans)!important; }\n    .order-note a { white-space: nowrap; }
 
     .author {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: clamp(35px, 7vw, 88px);
-      align-items: center;
+      align-items: start;
     }
     .author-visual { position: relative; min-height: 0; display: grid; align-items: center; justify-items: center; }
     .author-visual::before { content: ""; position: absolute; inset: 0; background: url("assets/neural-network.webp") center / contain no-repeat; opacity: .34; }
     .author-photo { position: relative; width: min(100%, 460px); height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 28%; filter: saturate(.72) contrast(.98); }
-    .author-copy h2 { margin: 10px 0 26px; font: 300 clamp(38px, 4.2vw, 56px)/1.04 var(--serif); }
-    .author-copy p { margin: 0 0 16px; font: 300 16px/1.65 var(--serif); }
+    .author-copy h2 { margin: 10px 0 26px; font: 300 clamp(38px, 4.2vw, 56px)/1.08 var(--serif); }
+    .author-copy p { margin: 0 0 16px; font: 300 17px/1.6 var(--serif); }
     footer {
       border-top: 1px solid var(--line);
       padding-block: 20px 28px;
@@ -455,7 +455,7 @@
       .nav a { min-height: 38px; padding-inline: 7px; font-size: 10px; }
       .hero { min-height: 0; grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: 42px 46px; }
       .hero::before { inset: auto 0 0; width: 100%; height: 54%; background-position: center; opacity: .5; }
-      .hero h1 { max-width: 560px; margin: 20px 0 20px; font-size: clamp(42px, 10.5vw, 56px); line-height: 1.04; }
+      .hero h1 { max-width: 560px; margin: 20px 0 20px; font-size: clamp(42px, 10.5vw, 56px); line-height: 1.08; }
       .hero-description { font-size: 21px; }
       .hero-actions { gap: 9px; margin-top: 24px; }
       .pill { min-height: 46px; padding-inline: 16px; font-size: 14px; }
@@ -472,11 +472,11 @@
       .section { padding-block: 50px 58px; }
       .section-head { display: block; margin-bottom: 24px; }
       .section-head h2 { font-size: 42px; }
-      .section-head > p { margin-top: 12px; font-size: 16px; }
+      .section-head > p { margin-top: 12px; font-size: 16px; text-align: center; }
       .edition-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; }
-      .product-stage { min-height: 260px; }
-      .standard-photo { height: 260px; }
-      .gift-stage { min-height: 250px; }
+      .product-stage { height: 280px; min-height: 280px; }
+      .standard-book { width: 181px; height: 280px; }
+      .gift-stage { height: 280px; min-height: 280px; }
       .gift-box-image { max-height: 240px; }
       .edition-info { grid-template-columns: minmax(0, 1fr) 150px; padding: 18px 8px 8px; }
       .edition-info h3 { font-size: 25px; }
@@ -485,10 +485,10 @@
       .fragment, .meet, .author { grid-template-columns: 1fr; gap: 24px; }
       .meet-action { margin-top: 18px; }
       .fragment-form { padding: 22px 18px; }
-      .author-visual { min-height: 0; height: auto; order: 2; }
+      .author-visual { min-height: 0; height: auto; order: -1; }
       .author-photo { width: min(100%, 360px); height: auto; aspect-ratio: 4 / 5; object-position: center 28%; }
       .author-copy h2 { margin-bottom: 18px; font-size: 41px; }
-      .author-copy p { font-size: 15px; }
+      .author-copy p { font-size: 16px; line-height: 1.6; }
       footer { display: block; }
       footer span + span { display: block; margin-top: 7px; }
     }
@@ -559,7 +559,7 @@
               <p>La novela en su edición regular.</p>
             </div>
             <div class="purchase">
-              <a class="pill primary" href="https://wa.me/51922198480?text=Hola%2C%20quiero%20comprar%20la%20edici%C3%B3n%20est%C3%A1ndar%20de%20El%20Proyecto%20Empat%C3%ADa%20por%20S%2F59.%20Delivery%3A%20S%2F11%20soles%20adicionales." target="_blank" rel="noopener noreferrer">Comprar <span class="arrow" aria-hidden="true">→</span></a><small>Delivery S/11, se cobra aparte</small></div>
+              <a class="pill primary" href="https://wa.me/51922198480?text=Hola%2C%20quiero%20comprar%20la%20edici%C3%B3n%20est%C3%A1ndar%20de%20El%20Proyecto%20Empat%C3%ADa%20por%20S%2F59.%20Delivery%3A%20S%2F11%20soles%20adicionales." target="_blank" rel="noopener noreferrer">Comprar <span class="arrow" aria-hidden="true">→</span></a><small>Delivery: S/11 soles adicionales</small></div>
           </div>
         </article>
         <article class="edition">
@@ -574,7 +574,7 @@
               
             </div>
             <div class="purchase">
-              <a class="pill primary" href="https://wa.me/51922198480?text=Hola%2C%20quiero%20comprar%20la%20edici%C3%B3n%20especial%20de%20El%20Proyecto%20Empat%C3%ADa%20por%20S%2F64.%20Delivery%3A%20S%2F11%20soles%20adicionales.%20Quiero%20incluir%20esta%20dedicatoria%3A%20%5Btexto%5D." target="_blank" rel="noopener noreferrer">Comprar <span class="arrow" aria-hidden="true">→</span></a><small>Delivery S/11, se cobra aparte</small></div>
+              <a class="pill primary" href="https://wa.me/51922198480?text=Hola%2C%20quiero%20comprar%20la%20edici%C3%B3n%20especial%20de%20El%20Proyecto%20Empat%C3%ADa%20por%20S%2F64.%20Delivery%3A%20S%2F11%20soles%20adicionales.%20Quiero%20incluir%20esta%20dedicatoria%3A%20%5Btexto%5D." target="_blank" rel="noopener noreferrer">Comprar <span class="arrow" aria-hidden="true">→</span></a><small>Delivery: S/11 soles adicionales</small></div>
           </div>
         </article>
       </div>
@@ -584,7 +584,7 @@
       <div class="fragment-copy">
         <p class="eyebrow">Pedidos</p>
         <h2 class="serif" id="order-title">Elige tu edición.</h2>
-        <p>La edición estándar cuesta S/59 y la edición especial S/64, con firma y dedicatoria opcional para regalar. El delivery cuesta S/11 y se cobra aparte.</p>
+        <p>La edición estándar cuesta S/59 y la edición especial S/64, con firma y dedicatoria opcional para regalar. Delivery: S/11 soles adicionales.</p>
         <p class="order-note">Enviaremos tu solicitud a empatia@elproyectoempatia.com. También puedes coordinar tu pedido por WhatsApp: <a href="https://wa.me/51922198480?text=Hola%2C%20quiero%20hacer%20un%20pedido%20de%20El%20Proyecto%20Empat%C3%ADa." target="_blank" rel="noopener noreferrer">+51 922 198 480</a>.</p>
       </div>
       <form class="fragment-form" id="orderForm" action="send-order.php" method="post">
