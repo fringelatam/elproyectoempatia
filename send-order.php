@@ -49,7 +49,9 @@ if (!empatia_send_mail('empatia@elproyectoempatia.com', $subject, $body, $html, 
     respond(502, ['ok' => false, 'message' => 'No pudimos enviar el pedido. Inténtalo nuevamente más tarde.']);
 }
 
-$confirmationText = "Hola {$name}:\n\nRecibimos tu solicitud de {$editionName}. El libro cuesta S/{$price}. Delivery: S/{$delivery} soles adicionales. Te contactaremos para coordinar el pago y la entrega.\n";
-$confirmationHtml = '<p>Hola ' . $safeName . ':</p><p>Recibimos tu solicitud de <strong>' . $safeEdition . '</strong>, con un precio de <strong>S/' . $price . '</strong>. Delivery: <strong>S/' . $delivery . ' soles adicionales</strong>. Te contactaremos para coordinar el pago y la entrega.</p>';
+$editionLabel = $edition === 'firmada' ? 'la edición especial' : 'la edición estándar';
+$confirmationText = "Hola {$name}:\n\nRecibimos tu pedido de {$editionLabel}. El precio del libro es S/{$price}. Delivery: S/{$delivery} soles adicionales. Te contactaremos para coordinar el pago y la entrega.\n";
+$safeEditionLabel = htmlspecialchars($editionLabel, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$confirmationHtml = '<p>Hola ' . $safeName . ':</p><p>Recibimos tu pedido de <strong>' . $safeEditionLabel . '</strong>. El precio del libro es <strong>S/' . $price . '</strong>. Delivery: <strong>S/' . $delivery . ' soles adicionales</strong>. Te contactaremos para coordinar el pago y la entrega.</p>';
 empatia_send_mail($email, 'Recibimos tu pedido de El Proyecto Empatía', $confirmationText, $confirmationHtml);
 respond(200, ['ok' => true, 'message' => 'Recibimos tu pedido. Te enviamos una confirmación por correo.']);
