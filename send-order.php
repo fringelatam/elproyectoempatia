@@ -71,6 +71,6 @@ $confirmationHtml = '<p style="margin:0 0 18px;color:#252525">Hola ' . $safeName
     . '</table>'
     . '<p style="margin:22px 0 5px;color:#252525;font-family:&quot;PP Editorial New&quot;,Georgia,serif;font-size:19px">¿Qué sigue ahora?</p>'
     . '<p style="margin:0 0 20px;color:#5f5a54">Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o escríbenos directamente por WhatsApp.</p>'
-    . '<p style="margin:0"><a href="' . $whatsappUrl . '" style="display:inline-block;padding:13px 22px;border-radius:24px;background:#403c78;color:#ffffff;font-family:DM Sans,Arial,sans-serif;font-size:13px;text-decoration:none">Escribir por WhatsApp &nbsp; →</a></p>'
+    . '<p style="margin:0"><a href="' . $whatsappUrl . '" style="display:inline-block;padding:13px 22px;border-radius:24px;background:#403c78;color:#ffffff;font-family:DM Sans,Arial,sans-serif;font-size:13px;text-decoration:none">Escribir por WhatsApp &nbsp; →</a></p>';
 empatia_send_mail($email, $confirmationSubject, $confirmationText, $confirmationHtml, 'empatia@elproyectoempatia.com', 'Gracias por elegir una historia que se siente.');
 respond(200, ['ok' => true, 'message' => 'Recibimos tu pedido. Te enviamos una confirmación por correo.']);
