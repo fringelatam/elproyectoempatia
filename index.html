@@ -589,7 +589,8 @@
         <p class="delivery-highlight">Delivery: S/11 soles adicionales</p>
         <p class="order-note">Enviaremos tu solicitud a empatia@elproyectoempatia.com. También puedes coordinar tu pedido por WhatsApp: <a href="https://wa.me/51922198480?text=Hola%2C%20quiero%20hacer%20un%20pedido%20de%20El%20Proyecto%20Empat%C3%ADa." target="_blank" rel="noopener noreferrer">+51 922 198 480</a>.</p>
       </div>
-      <form class="fragment-form" id="orderForm" action="send-order.php" method="post">
+      <form class="fragment-form" id="orderForm" action="https://script.google.com/macros/s/AKfycbzPyANN575Hkum1Uf8lWUz6ztbCQBVzNokEA2IvOqWnHQOFlglCDy2pq00bVCV8JEP6/exec" method="post">
+        <input type="hidden" name="form_type" value="order">
         <label>Nombre completo
           <input type="text" name="nombre" autocomplete="name" maxlength="120" required>
         </label>
@@ -627,13 +628,15 @@
         <p>Déjanos tu nombre y correo para solicitar el primer capítulo de <i>El Proyecto Empatía</i>.</p>
         <p class="form-notice">Recibirás una respuesta de empatia@elproyectoempatia.com. Tus datos se usarán solo para atender esta solicitud.</p>
       </div>
-      <form class="fragment-form" id="sampleForm" action="send-fragment.php" method="post">
+      <form class="fragment-form" id="sampleForm" action="https://script.google.com/macros/s/AKfycbzPyANN575Hkum1Uf8lWUz6ztbCQBVzNokEA2IvOqWnHQOFlglCDy2pq00bVCV8JEP6/exec" method="post">
+        <input type="hidden" name="form_type" value="sample">
         <label>Nombre
           <input type="text" name="nombre" autocomplete="given-name" maxlength="120" required>
         </label>
         <label>Correo electrónico
           <input type="email" name="email" autocomplete="email" required>
         </label>
+        <label class="consent"><input type="checkbox" name="consentimiento" value="si" required> Autorizo el uso de mis datos para atender esta solicitud.</label>
         <label class="honeypot" aria-hidden="true">Empresa
           <input type="text" name="company" tabindex="-1" autocomplete="off">
         </label>
@@ -724,11 +727,9 @@
     }
 
     document.querySelectorAll("#sampleForm, #orderForm").forEach((form) => {
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
+      form.addEventListener("submit", () => {
         const submit = form.querySelector('button[type="submit"]');
         const status = form.querySelector(".form-status");
-        const label = submit.innerHTML;
         submit.disabled = true;
         submit.dataset.state = "sending";
         submit.textContent = "Enviando…";
@@ -736,43 +737,8 @@
           status.dataset.state = "sending";
           status.textContent = "Enviando tu solicitud…";
         }
-        try {
-          const response = await fetch(form.action, {
-            method: "POST",
-            body: new FormData(form),
-            headers: { Accept: "application/json" }
-          });
-          const responseText = await response.text();
-          let result = null;
-          try {
-            result = responseText ? JSON.parse(responseText) : null;
-          } catch (_) {
-            result = null;
-          }
-          if (!result || typeof result !== "object") {
-            throw new Error("El servidor no respondió correctamente. Inténtalo nuevamente o escríbenos a empatia@elproyectoempatia.com.");
-          }
-          if (!response.ok || !result.ok) throw new Error(result.message || "No se pudo enviar la solicitud.");
-          showNotice(result.message);
-          if (status) {
-            status.dataset.state = "success";
-            status.textContent = result.message;
-          }
-          form.reset();
-          updateDedicationField();
-        } catch (error) {
-          const message = error.message || "No se pudo enviar la solicitud. Inténtalo nuevamente.";
-          showNotice(message);
-          if (status) {
-            status.dataset.state = "error";
-            status.textContent = message;
-          }
-        } finally {
-          submit.disabled = false;
-          delete submit.dataset.state;
-          submit.innerHTML = label;
-        }
       });
     });
+
   </script></body>
 </html>
