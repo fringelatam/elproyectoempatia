@@ -9,7 +9,7 @@ function empatia_email_html($title, $content) {
         . '<tr><td style="padding:8px 28px 28px;font-size:15px;line-height:1.65">' . $content . '</td></tr>'
         . '<tr><td style="padding:18px 28px 24px;border-top:1px solid #d5d0c7;color:#5f5a54;font-size:13px;line-height:1.6">'
         . '<strong style="color:#403c78;font-family:Georgia,serif;font-size:16px">El Proyecto Empatía</strong><br>'
-        . 'Una novela de Carlos Fernández Gates<br>Palestra Editores<br>'
+        . 'Una novela de Carlos Fernández Gates<br>Akuela Innovations<br>'
         . '<a href="mailto:empatia@elproyectoempatia.com" style="color:#403c78;text-decoration:none">empatia@elproyectoempatia.com</a>'
         . '</td></tr></table></body></html>';
 }
