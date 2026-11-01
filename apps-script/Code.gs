@@ -49,10 +49,18 @@ function doGet() {
 function doPost(e) {
   try {
     const p = e && e.parameter ? e.parameter : {};
-    if (p.company) {
-      return page_("Solicitud recibida", "Gracias. Recibimos tu solicitud.", true, "");
-    }
     const kind = p.form_type;
+    console.info("form_received " + JSON.stringify({
+      formType: kind || "missing",
+      fieldsPresent: {
+        name: Boolean(p.nombre),
+        email: Boolean(p.email),
+        phone: Boolean(p.telefono),
+        profession: Boolean(p.profesion),
+        edition: Boolean(p.edicion),
+        consent: Boolean(p.consentimiento)
+      }
+    }));
     if (kind === "order") return handleOrder_(p);
     if (kind === "sample") return handleSample_(p);
     return page_("No pudimos procesar la solicitud", "Vuelve al sitio e inténtalo nuevamente.", false, "");
@@ -75,9 +83,16 @@ function handleOrder_(p) {
   const edition = clean_(p.edicion, 20);
   const dedication = clean_(p.dedicatoria, 400);
   const consent = p.consentimiento === "si";
-  if (!name || !profession || !validEmail_(email) ||
-      !/^[+0-9()\s.-]{7,25}$/.test(phone) ||
-      !["regular", "firmada"].includes(edition) || !consent) {
+  const validation = {
+    name: Boolean(name),
+    profession: Boolean(profession),
+    email: validEmail_(email),
+    phone: /^[+0-9()\s.-]{7,25}$/.test(phone),
+    edition: ["regular", "firmada"].includes(edition),
+    consent: consent
+  };
+  console.info("order_validation " + JSON.stringify(validation));
+  if (Object.values(validation).some((passed) => !passed)) {
     return page_(
       "Revisa tus datos",
       "Completa todos los campos obligatorios y autoriza el uso de tus datos para atender el pedido.",
@@ -99,6 +114,7 @@ function handleOrder_(p) {
     id, now, name, email, phone, profession, editionName, price,
     CONFIG.DELIVERY, dedicationValue, "Sí", "Nuevo", "Pendiente"
   ]);
+  console.info("order_saved " + id);
   const row = sheet.getLastRow();
   sheet.getRange(row, 2).setNumberFormat("dd/mm/yyyy hh:mm:ss");
 
@@ -133,6 +149,7 @@ function handleOrder_(p) {
 
   const emailStatus = "Equipo: " + (adminSent ? "enviado" : "pendiente") +
     " · Cliente: " + (customerSent ? "enviado" : "pendiente");
+  console.info("order_email_status " + JSON.stringify({adminSent, customerSent}));
   sheet.getRange(row, 13).setValue(emailStatus);
 
   if (!adminSent) {
@@ -155,7 +172,13 @@ function handleSample_(p) {
   const name = clean_(p.nombre, 120);
   const email = clean_(p.email, 254).toLowerCase();
   const consent = p.consentimiento === "si";
-  if (!name || !validEmail_(email) || !consent) {
+  const validation = {
+    name: Boolean(name),
+    email: validEmail_(email),
+    consent: consent
+  };
+  console.info("sample_validation " + JSON.stringify(validation));
+  if (Object.values(validation).some((passed) => !passed)) {
     return page_(
       "Revisa tus datos",
       "Completa tu nombre, un correo válido y autoriza el uso de tus datos para atender esta solicitud.",
@@ -169,6 +192,7 @@ function handleSample_(p) {
   const id = "LEC-" + Utilities.formatDate(now, CONFIG.TIME_ZONE, "yyyyMMdd-HHmmss") + "-" + Utilities.getUuid().slice(0, 8).toUpperCase();
   const sheet = getSheet_(CONFIG.SHEET_SAMPLE);
   sheet.appendRow([id, now, name, email, "Sí", "Nuevo"]);
+  console.info("sample_saved " + id);
   const row = sheet.getLastRow();
   sheet.getRange(row, 2).setNumberFormat("dd/mm/yyyy hh:mm:ss");
 
@@ -206,6 +230,7 @@ function handleSample_(p) {
 
   const status = "Equipo: " + (adminSent ? "enviado" : "pendiente") +
     " · Cliente: " + (customerSent ? "enviado" : "pendiente");
+  console.info("sample_email_status " + JSON.stringify({adminSent, customerSent}));
   sheet.getRange(row, 6).setValue(status);
   return page_(
     adminSent ? "Solicitud recibida" : "Solicitud guardada",
