@@ -50,21 +50,25 @@ if (!empatia_send_mail('empatia@elproyectoempatia.com', $subject, $body, $html, 
     respond(502, ['ok' => false, 'message' => 'No pudimos enviar el pedido. Inténtalo nuevamente más tarde.']);
 }
 
-$editionLabel = $edition === 'firmada' ? 'la edición especial' : 'la edición estándar';
-$confirmationText = "Hola {$name}:\n\nRecibimos tu pedido de {$editionLabel}. El precio del libro es S/{$price}. Delivery: S/{$delivery} soles adicionales. Te contactaremos para coordinar el pago y la entrega.\n";
+$editionLabel = $edition === 'firmada' ? 'Edición especial' : 'Edición Estándar';
+$editionArticle = $edition === 'firmada' ? 'la edición especial' : 'la edición estándar';
+$total = $price + $delivery;
+$confirmationSubject = 'Tu pedido ha sido registrado ✦ El Proyecto Empatía';
+$confirmationText = "Hola {$name}:\n\nGracias por sumarte a El Proyecto Empatía. Te confirmamos que tu pedido ha quedado registrado.\n\nResumen de tu pedido:\n- {$editionLabel}: S/{$price}\n- Delivery: S/{$delivery}\n- Total a coordinar: S/{$total}\n\n¿Qué sigue ahora? Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o escríbenos directamente por WhatsApp:\nhttps://wa.me/51922198480\n";
 $safeEditionLabel = htmlspecialchars($editionLabel, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-$whatsappMessage = rawurlencode('Hola, hice un pedido de ' . $editionLabel . ' (S/' . $price . '). Delivery: S/' . $delivery . ' soles adicionales.');
+$whatsappMessage = rawurlencode('Hola, quiero comprar ' . $editionArticle . ' de El Proyecto Empatía. Delivery: S/' . $delivery . ' soles adicionales.');
 $whatsappUrl = htmlspecialchars('https://wa.me/51922198480?text=' . $whatsappMessage, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $confirmationHtml = '<p style="margin:0 0 18px;color:#252525">Hola ' . $safeName . ':</p>'
-    . '<p style="margin:0 0 22px;color:#4b4843">Tu pedido de ' . $safeEditionLabel . ' quedó registrado. Gracias por acercarte a <i>El Proyecto Empatía</i>.</p>'
+    . '<p style="margin:0 0 22px;color:#4b4843">Gracias por sumarte a <i>El Proyecto Empatía</i>. Te confirmamos que tu pedido ha quedado registrado.</p>'
     . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f6f3ee;border:1px solid #ded8ce;border-collapse:collapse">'
-    . '<tr><td colspan="2" style="padding:16px 18px 8px;color:#77736c;font-family:Arial,sans-serif;font-size:10px;letter-spacing:1.5px">RESUMEN DEL PEDIDO</td></tr>'
+    . '<tr><td colspan="2" style="padding:16px 18px 8px;color:#77736c;font-family:Arial,sans-serif;font-size:10px;letter-spacing:1.5px">RESUMEN DE TU PEDIDO</td></tr>'
     . '<tr><td style="padding:6px 18px 12px;color:#252525;font-family:Georgia,serif;font-size:18px">' . $safeEditionLabel . '</td><td align="right" style="padding:6px 18px 12px;color:#403c78;font-family:Arial,sans-serif;font-size:17px;font-weight:bold">S/' . $price . '</td></tr>'
+    . '<tr><td style="padding:0 18px 10px;color:#5f5a54;font-family:Arial,sans-serif;font-size:13px">Delivery</td><td align="right" style="padding:0 18px 10px;color:#5f5a54;font-family:Arial,sans-serif;font-size:13px">S/' . $delivery . '</td></tr>'
     . '<tr><td colspan="2" style="padding:0 18px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td style="height:1px;background:#ded8ce;font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr>'
-    . '<tr><td colspan="2" style="padding:12px 18px 16px;color:#403c78;font-family:Arial,sans-serif;font-size:13px;font-weight:bold">Delivery: S/' . $delivery . ' soles adicionales</td></tr>'
+    . '<tr><td style="padding:12px 18px 16px;color:#252525;font-family:Arial,sans-serif;font-size:13px;font-weight:bold">Total a coordinar</td><td align="right" style="padding:12px 18px 16px;color:#403c78;font-family:Arial,sans-serif;font-size:15px;font-weight:bold">S/' . $total . '</td></tr>'
     . '</table>'
-    . '<p style="margin:22px 0 5px;color:#252525;font-family:Georgia,serif;font-size:19px">¿Qué sigue?</p>'
-    . '<p style="margin:0 0 20px;color:#5f5a54">Te escribiremos para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo.</p>'
-    . '<p style="margin:0"><a href="' . $whatsappUrl . '" style="display:inline-block;padding:13px 22px;border-radius:24px;background:#403c78;color:#ffffff;font-family:Arial,sans-serif;font-size:13px;text-decoration:none">Escribir por WhatsApp &nbsp; →</a></p>';
-empatia_send_mail($email, 'Recibimos tu pedido de El Proyecto Empatía', $confirmationText, $confirmationHtml, 'empatia@elproyectoempatia.com', 'Gracias por elegir una historia que se siente.');
+    . '<p style="margin:22px 0 5px;color:#252525;font-family:Georgia,serif;font-size:19px">¿Qué sigue ahora?</p>'
+    . '<p style="margin:0 0 20px;color:#5f5a54">Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o escríbenos directamente por WhatsApp.</p>'
+    . '<p style="margin:0"><a href="' . $whatsappUrl . '" style="display:inline-block;padding:13px 22px;border-radius:24px;background:#403c78;color:#ffffff;font-family:Arial,sans-serif;font-size:13px;text-decoration:none">Escribir por WhatsApp &nbsp; →</a></p>'
+empatia_send_mail($email, $confirmationSubject, $confirmationText, $confirmationHtml, 'empatia@elproyectoempatia.com', 'Gracias por elegir una historia que se siente.');
 respond(200, ['ok' => true, 'message' => 'Recibimos tu pedido. Te enviamos una confirmación por correo.']);
