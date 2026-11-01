@@ -33,7 +33,7 @@ if ($name === '' || strlen($name) > 480 || $profession === '' || strlen($profess
 
 $price = $edition === 'firmada' ? 64 : 59;
 $delivery = 11;
-$editionName = $edition === 'firmada' ? 'Edición especial, S/64' : 'Edición estándar, S/59';
+$editionName = $edition === 'firmada' ? 'Edición especial' : 'Edición estándar';
 if ($edition !== 'firmada') $dedication = '';
 $safeName = htmlspecialchars($name, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $safeEmail = htmlspecialchars($email, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -41,10 +41,11 @@ $safePhone = htmlspecialchars($phone, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $safeProfession = htmlspecialchars($profession, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $safeEdition = htmlspecialchars($editionName, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $safeDedication = nl2br(htmlspecialchars($dedication !== '' ? $dedication : 'No solicitada', ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'));
-$date = date('Y-m-d H:i:s T');
+date_default_timezone_set('America/Lima');
+$date = date('d/m/Y H:i:s') . ' (hora de Perú)';
 $subject = 'Nueva solicitud de pedido, El Proyecto Empatía';
-$body = "Nueva solicitud de pedido\nNombre: {$name}\nCorreo: {$email}\nTeléfono: {$phone}\nProfesión: {$profession}\nEdición: {$editionName}\nPrecio del libro: S/{$price}\nDelivery: S/{$delivery} soles adicionales\nDedicatoria: " . ($dedication !== '' ? $dedication : 'No solicitada') . "\nFecha: {$date}";
-$html = '<p>Se recibió una nueva solicitud de pedido.</p><p><strong>Nombre:</strong> ' . $safeName . '<br><strong>Correo:</strong> ' . $safeEmail . '<br><strong>Teléfono:</strong> ' . $safePhone . '<br><strong>Profesión:</strong> ' . $safeProfession . '<br><strong>Edición:</strong> ' . $safeEdition . '<br><strong>Precio del libro:</strong> S/' . $price . '<br><strong>Delivery:</strong> S/' . $delivery . ' soles adicionales<br><strong>Dedicatoria:</strong><br>' . $safeDedication . '<br><strong>Fecha:</strong> ' . htmlspecialchars($date, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p>';
+$body = "Nueva solicitud de pedido\nNombre: {$name}\nCorreo: {$email}\nTeléfono: {$phone}\nProfesión: {$profession}\nEdición: {$editionName}\nPrecio del libro: S/{$price}\nDelivery: S/{$delivery}\nDedicatoria: " . ($dedication !== '' ? $dedication : 'No solicitada') . "\nFecha: {$date}";
+$html = '<p>Se recibió una nueva solicitud de pedido.</p><p><strong>Nombre:</strong> ' . $safeName . '<br><strong>Correo:</strong> ' . $safeEmail . '<br><strong>Teléfono:</strong> ' . $safePhone . '<br><strong>Profesión:</strong> ' . $safeProfession . '<br><strong>Edición:</strong> ' . $safeEdition . '<br><strong>Precio del libro:</strong> S/' . $price . '<br><strong>Delivery:</strong> S/' . $delivery . '<br><strong>Dedicatoria:</strong><br>' . $safeDedication . '<br><strong>Fecha:</strong> ' . htmlspecialchars($date, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') . '</p>';
 if (!empatia_send_mail('empatia@elproyectoempatia.com', $subject, $body, $html, $email)) {
     respond(502, ['ok' => false, 'message' => 'No pudimos enviar el pedido. Inténtalo nuevamente más tarde.']);
 }
