@@ -406,6 +406,7 @@
     .meet-action:disabled { cursor: not-allowed; opacity: .58; box-shadow: none; transform: none; }
     .meet-note { display: block; margin-top: 10px; color: var(--muted); font: 400 11px/1.4 var(--sans); }
     .fragment-copy .form-notice { margin: 0 0 18px; color: var(--muted); font: 400 12px/1.5 var(--sans); }
+    .fragment-copy .delivery-highlight { margin: 12px 0 0!important; color: var(--indigo)!important; font: 600 14px/1.45 var(--sans)!important; }
     .fragment-form :disabled { opacity: .62; cursor: not-allowed; }
     .order-note { max-width: 470px; margin-top: 14px!important; font: 400 12px/1.5 var(--sans)!important; }\n    .order-note a { white-space: nowrap; }
 
@@ -584,7 +585,8 @@
       <div class="fragment-copy">
         <p class="eyebrow">Pedidos</p>
         <h2 class="serif" id="order-title">Elige tu edición.</h2>
-        <p>La edición estándar cuesta S/59 y la edición especial S/64, con firma y dedicatoria opcional para regalar. Delivery: S/11 soles adicionales.</p>
+        <p>La edición estándar cuesta S/59 y la edición especial S/64, con firma y dedicatoria opcional para regalar.</p>
+        <p class="delivery-highlight">Delivery: S/11 soles adicionales</p>
         <p class="order-note">Enviaremos tu solicitud a empatia@elproyectoempatia.com. También puedes coordinar tu pedido por WhatsApp: <a href="https://wa.me/51922198480?text=Hola%2C%20quiero%20hacer%20un%20pedido%20de%20El%20Proyecto%20Empat%C3%ADa." target="_blank" rel="noopener noreferrer">+51 922 198 480</a>.</p>
       </div>
       <form class="fragment-form" id="orderForm" action="send-order.php" method="post">
@@ -740,7 +742,16 @@
             body: new FormData(form),
             headers: { Accept: "application/json" }
           });
-          const result = await response.json();
+          const responseText = await response.text();
+          let result = null;
+          try {
+            result = responseText ? JSON.parse(responseText) : null;
+          } catch (_) {
+            result = null;
+          }
+          if (!result || typeof result !== "object") {
+            throw new Error("El servidor no respondió correctamente. Inténtalo nuevamente o escríbenos a empatia@elproyectoempatia.com.");
+          }
           if (!response.ok || !result.ok) throw new Error(result.message || "No se pudo enviar la solicitud.");
           showNotice(result.message);
           if (status) {
