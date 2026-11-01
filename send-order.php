@@ -50,20 +50,22 @@ if (!empatia_send_mail('empatia@elproyectoempatia.com', $subject, $body, $html, 
     respond(502, ['ok' => false, 'message' => 'No pudimos enviar el pedido. Inténtalo nuevamente más tarde.']);
 }
 
-$editionLabel = $edition === 'firmada' ? 'Edición especial' : 'Edición Estándar';
-$editionArticle = $edition === 'firmada' ? 'la edición especial' : 'la edición estándar';
+$editionLabel = $edition === 'firmada' ? 'Edición Especial' : 'Edición Estándar';
 $total = $price + $delivery;
 $confirmationSubject = 'Tu pedido ha sido registrado ✦ El Proyecto Empatía';
-$confirmationText = "Hola {$name}:\n\nGracias por sumarte a El Proyecto Empatía. Te confirmamos que tu pedido ha quedado registrado.\n\nResumen de tu pedido:\n- {$editionLabel}: S/{$price}\n- Delivery: S/{$delivery}\n- Total a coordinar: S/{$total}\n\n¿Qué sigue ahora? Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o escríbenos directamente por WhatsApp:\nhttps://wa.me/51922198480\n";
+$whatsappMessageText = 'Hola, quiero comprar ' . $editionLabel . ' de El Proyecto Empatía (S/' . $price . '). Delivery: S/' . $delivery . ' soles adicionales.';
+if ($edition === 'firmada') $whatsappMessageText .= ' Quisiera consultar la opción de dedicatoria.';
+$whatsappMessage = rawurlencode($whatsappMessageText);
+$whatsappPlainUrl = 'https://wa.me/51922198480?text=' . $whatsappMessage;
+$confirmationText = "Hola {$name}:\n\nGracias por sumarte a El Proyecto Empatía. Te confirmamos que tu pedido ha quedado registrado.\n\nResumen de tu pedido:\n- {$editionLabel}: S/{$price}\n- Delivery: S/{$delivery} soles adicionales\n- Total a coordinar: S/{$total}\n\n¿Qué sigue ahora? Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o escríbenos directamente por WhatsApp:\n{$whatsappPlainUrl}\n";
 $safeEditionLabel = htmlspecialchars($editionLabel, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
-$whatsappMessage = rawurlencode('Hola, quiero comprar ' . $editionArticle . ' de El Proyecto Empatía. Delivery: S/' . $delivery . ' soles adicionales.');
-$whatsappUrl = htmlspecialchars('https://wa.me/51922198480?text=' . $whatsappMessage, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
+$whatsappUrl = htmlspecialchars($whatsappPlainUrl, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 $confirmationHtml = '<p style="margin:0 0 18px;color:#252525">Hola ' . $safeName . ':</p>'
     . '<p style="margin:0 0 22px;color:#4b4843">Gracias por sumarte a <i>El Proyecto Empatía</i>. Te confirmamos que tu pedido ha quedado registrado.</p>'
     . '<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background:#f6f3ee;border:1px solid #ded8ce;border-collapse:collapse">'
-    . '<tr><td colspan="2" style="padding:16px 18px 8px;color:#77736c;font-family:Arial,sans-serif;font-size:10px;letter-spacing:1.5px">RESUMEN DE TU PEDIDO</td></tr>'
-    . '<tr><td style="padding:6px 18px 12px;color:#252525;font-family:Georgia,serif;font-size:18px">' . $safeEditionLabel . '</td><td align="right" style="padding:6px 18px 12px;color:#403c78;font-family:Arial,sans-serif;font-size:17px;font-weight:bold">S/' . $price . '</td></tr>'
-    . '<tr><td style="padding:0 18px 10px;color:#5f5a54;font-family:Arial,sans-serif;font-size:13px">Delivery</td><td align="right" style="padding:0 18px 10px;color:#5f5a54;font-family:Arial,sans-serif;font-size:13px">S/' . $delivery . '</td></tr>'
+    . '<tr><td colspan="2" style="padding:16px 18px 8px;color:#77736c;font-family:DM Sans,Arial,sans-serif;font-size:10px;letter-spacing:1.5px">RESUMEN DE TU PEDIDO</td></tr>'
+    . '<tr><td style="padding:6px 18px 12px;color:#252525;font-family:&quot;PP Editorial New&quot;,Georgia,serif;font-size:18px">' . $safeEditionLabel . '</td><td align="right" style="padding:6px 18px 12px;color:#403c78;font-family:Arial,sans-serif;font-size:17px;font-weight:bold">S/' . $price . '</td></tr>'
+    . '<tr><td style="padding:0 18px 10px;color:#5f5a54;font-family:Arial,sans-serif;font-size:13px">Delivery</td><td align="right" style="padding:0 18px 10px;color:#5f5a54;font-family:Arial,sans-serif;font-size:13px">S/' . $delivery . ' soles adicionales</td></tr>'
     . '<tr><td colspan="2" style="padding:0 18px"><table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"><tr><td style="height:1px;background:#ded8ce;font-size:0;line-height:0">&nbsp;</td></tr></table></td></tr>'
     . '<tr><td style="padding:12px 18px 16px;color:#252525;font-family:Arial,sans-serif;font-size:13px;font-weight:bold">Total a coordinar</td><td align="right" style="padding:12px 18px 16px;color:#403c78;font-family:Arial,sans-serif;font-size:15px;font-weight:bold">S/' . $total . '</td></tr>'
     . '</table>'
