@@ -76,7 +76,7 @@ function handleOrder_(p) {
   const dedication = clean_(p.dedicatoria, 400);
   const consent = p.consentimiento === "si";
   if (!name || !profession || !validEmail_(email) ||
-      !/^[+0-9()\\s.-]{7,25}$/.test(phone) ||
+      !/^[+0-9()\s.-]{7,25}$/.test(phone) ||
       !["regular", "firmada"].includes(edition) || !consent) {
     return page_(
       "Revisa tus datos",
@@ -235,7 +235,7 @@ function orderAdminHtml_(name, email, phone, profession, edition, price, dedicat
     "<strong>Edición:</strong> " + esc_(edition) + "<br>" +
     "<strong>Precio del libro:</strong> S/" + price + "<br>" +
     "<strong>Delivery:</strong> S/" + CONFIG.DELIVERY + "<br>" +
-    "<strong>Dedicatoria:</strong><br>" + esc_(dedication).replace(/\\n/g, "<br>") + "<br>" +
+    "<strong>Dedicatoria:</strong><br>" + esc_(dedication).replace(/\n/g, "<br>") + "<br>" +
     "<strong>Fecha:</strong> " + esc_(dateText) + "</p></div>";
 }
 
@@ -292,11 +292,11 @@ function ensureSheet_(spreadsheet, name, headers) {
 }
 
 function clean_(value, maxLength) {
-  return String(value || "").replace(/[\\r\\n]+/g, " ").trim().slice(0, maxLength);
+  return String(value || "").replace(/[\r\n]+/g, " ").trim().slice(0, maxLength);
 }
 
 function validEmail_(value) {
-  return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value);
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 }
 
 function esc_(value) {
