@@ -1,6 +1,6 @@
 /**
  * Backend de formularios de El Proyecto Empatía.
- * Vinculado a la hoja "El Proyecto Empatía — Solicitudes".
+ * Vinculado a la hoja de solicitudes del proyecto.
  * Ejecutar setup() una vez y luego publicar como aplicación web.
  */
 const CONFIG = {
@@ -13,7 +13,7 @@ const CONFIG = {
   SHEET_SAMPLE: "Solicitudes de lectura",
   PRICE_REGULAR: 59,
   PRICE_SPECIAL: 64,
-  DELIVERY: 11
+  DELIVERY: 10
 };
 
 const ORDER_HEADERS = [
@@ -57,7 +57,6 @@ function doPost(e) {
         name: Boolean(p.nombre),
         email: Boolean(p.email),
         phone: Boolean(p.telefono),
-        profession: Boolean(p.profesion),
         edition: Boolean(p.edicion),
         consent: Boolean(p.consentimiento)
       }
@@ -80,13 +79,11 @@ function handleOrder_(p) {
   const name = clean_(p.nombre, 120);
   const email = clean_(p.email, 254).toLowerCase();
   const phone = clean_(p.telefono, 25);
-  const profession = clean_(p.profesion, 120);
   const edition = clean_(p.edicion, 20);
   const dedication = clean_(p.dedicatoria, 400);
   const consent = p.consentimiento === "si";
   const validation = {
     name: Boolean(name),
-    profession: Boolean(profession),
     email: validEmail_(email),
     phone: /^[+0-9()\s.-]{7,25}$/.test(phone),
     edition: ["regular", "firmada"].includes(edition),
@@ -112,7 +109,7 @@ function handleOrder_(p) {
 
   const sheet = getSheet_(CONFIG.SHEET_ORDERS);
   sheet.appendRow([
-    id, now, name, email, phone, profession, editionName, price,
+    id, now, name, email, phone, "", editionName, price,
     CONFIG.DELIVERY, dedicationValue, "Sí", "Nuevo", "Pendiente"
   ]);
   console.info("order_saved " + id);
@@ -125,8 +122,8 @@ function handleOrder_(p) {
     MailApp.sendEmail({
       to: CONFIG.ADMIN_EMAIL,
       subject: "Nueva solicitud de pedido, El Proyecto Empatía",
-      body: orderAdminText_(name, email, phone, profession, editionName, price, dedicationValue, dateText),
-      htmlBody: orderAdminHtml_(name, email, phone, profession, editionName, price, dedicationValue, dateText),
+      body: orderAdminText_(name, email, phone, editionName, price, dedicationValue, dateText),
+      htmlBody: orderAdminHtml_(name, email, phone, editionName, price, dedicationValue, dateText),
       replyTo: email,
       name: "El Proyecto Empatía"
     });
@@ -244,24 +241,23 @@ function handleSample_(p) {
   );
 }
 
-function orderAdminText_(name, email, phone, profession, edition, price, dedication, dateText) {
+function orderAdminText_(name, email, phone, edition, price, dedication, dateText) {
   return "Se recibió una nueva solicitud de pedido.\n\n" +
     "Nombre: " + name + "\nCorreo: " + email + "\nTeléfono: " + phone +
-    "\nProfesión: " + profession + "\nEdición: " + edition +
-    "\nPrecio del libro: S/" + price + "\nDelivery: S/" + CONFIG.DELIVERY +
+    "\nEdición: " + edition +
+    "\nPrecio del libro: S/" + price + "\nDelivery en Lima: S/" + CONFIG.DELIVERY + " adicionales" +
     "\nDedicatoria:\n" + dedication + "\nFecha: " + dateText;
 }
 
-function orderAdminHtml_(name, email, phone, profession, edition, price, dedication, dateText) {
+function orderAdminHtml_(name, email, phone, edition, price, dedication, dateText) {
   return "<div style=\"font-family:Arial,sans-serif;color:#252525;line-height:1.6\">" +
     "<p>Se recibió una nueva solicitud de pedido.</p><p>" +
     "<strong>Nombre:</strong> " + esc_(name) + "<br>" +
     "<strong>Correo:</strong> " + esc_(email) + "<br>" +
     "<strong>Teléfono:</strong> " + esc_(phone) + "<br>" +
-    "<strong>Profesión:</strong> " + esc_(profession) + "<br>" +
     "<strong>Edición:</strong> " + esc_(edition) + "<br>" +
     "<strong>Precio del libro:</strong> S/" + price + "<br>" +
-    "<strong>Delivery:</strong> S/" + CONFIG.DELIVERY + "<br>" +
+    "<strong>Delivery en Lima:</strong> S/" + CONFIG.DELIVERY + " adicionales<br>" +
     "<strong>Dedicatoria:</strong><br>" + esc_(dedication).replace(/\n/g, "<br>") + "<br>" +
     "<strong>Fecha:</strong> " + esc_(dateText) + "</p></div>";
 }
@@ -269,19 +265,19 @@ function orderAdminHtml_(name, email, phone, profession, edition, price, dedicat
 function orderCustomerText_(name, edition, price, special) {
   const total = price + CONFIG.DELIVERY;
   const message = "Hola, quiero comprar " + edition + " de El Proyecto Empatía (S/" + price +
-    "). Delivery: S/" + CONFIG.DELIVERY + " soles adicionales." +
+    "). Delivery en Lima: S/" + CONFIG.DELIVERY + " adicionales." +
     (special ? " Quisiera consultar la opción de dedicatoria." : "");
   return "Hola " + name + ":\n\nGracias por sumarte a El Proyecto Empatía. Tu pedido ha quedado registrado.\n\n" +
-    "Resumen de tu pedido:\n- " + edition + ": S/" + price + "\n- Delivery: S/" + CONFIG.DELIVERY +
-    " soles adicionales\n- Total a coordinar: S/" + total + "\n\n" +
-    "Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o escríbenos por WhatsApp:\n" +
+    "Resumen de tu pedido:\n- " + edition + ": S/" + price + "\n- Delivery en Lima: S/" + CONFIG.DELIVERY +
+    " adicionales\n- Total a coordinar: S/" + total + "\n\n" +
+    "Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o contáctanos por WhatsApp al: +51 922 198 480.\n" +
     CONFIG.WHATSAPP_URL + "?text=" + encodeURIComponent(message) + "\n";
 }
 
 function orderCustomerHtml_(name, edition, price, special) {
   const total = price + CONFIG.DELIVERY;
   const message = "Hola, quiero comprar " + edition + " de El Proyecto Empatía (S/" + price +
-    "). Delivery: S/" + CONFIG.DELIVERY + " soles adicionales." +
+    "). Delivery en Lima: S/" + CONFIG.DELIVERY + " adicionales." +
     (special ? " Quisiera consultar la opción de dedicatoria." : "");
   const whatsapp = CONFIG.WHATSAPP_URL + "?text=" + encodeURIComponent(message);
   return "<div style=\"margin:0 auto;max-width:600px;background:#fffdfa;color:#252525;font-family:Arial,sans-serif;line-height:1.6\">" +
@@ -290,10 +286,10 @@ function orderCustomerHtml_(name, edition, price, special) {
     "<p>Hola " + esc_(name) + ":</p><p>Gracias por sumarte a <i>El Proyecto Empatía</i>. Tu pedido ha quedado registrado.</p>" +
     "<table role=\"presentation\" width=\"100%\" cellpadding=\"0\" cellspacing=\"0\" style=\"border-collapse:collapse;background:#f6f3ee;border:1px solid #ded8ce\">" +
     "<tr><td style=\"padding:12px 16px\">" + esc_(edition) + "</td><td align=\"right\" style=\"padding:12px 16px;color:#403c78;font-weight:bold\">S/" + price + "</td></tr>" +
-    "<tr><td style=\"padding:0 16px 12px;color:#5f5a54\">Delivery</td><td align=\"right\" style=\"padding:0 16px 12px;color:#5f5a54\">S/" + CONFIG.DELIVERY + " soles adicionales</td></tr>" +
+    "<tr><td style=\"padding:0 16px 12px;color:#5f5a54\">Delivery en Lima:</td><td align=\"right\" style=\"padding:0 16px 12px;color:#5f5a54\">S/" + CONFIG.DELIVERY + " adicionales</td></tr>" +
     "<tr><td style=\"padding:12px 16px;border-top:1px solid #ded8ce;font-weight:bold\">Total a coordinar</td><td align=\"right\" style=\"padding:12px 16px;border-top:1px solid #ded8ce;color:#403c78;font-weight:bold\">S/" + total + "</td></tr></table>" +
     "<h2 style=\"margin:24px 0 6px;font-family:Georgia,serif;font-size:19px;font-weight:normal\">¿Qué sigue ahora?</h2>" +
-    "<p>Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o escríbenos por WhatsApp.</p>" +
+    "<p>Te escribiremos a la brevedad para coordinar el pago y la entrega. Si necesitas hacer algún ajuste, responde a este correo o contáctanos por WhatsApp al: +51 922 198 480.</p>" +
     "<p style=\"margin:22px 0\"><a href=\"" + esc_(whatsapp) + "\" style=\"display:inline-block;padding:12px 20px;border-radius:24px;background:#403c78;color:#fff;text-decoration:none\">Escribir por WhatsApp →</a></p>" +
     "<div style=\"margin-top:30px;padding-top:18px;border-top:1px solid #ded8ce;color:#5f5a54\"><strong style=\"color:#2d2a59\">El Proyecto Empatía</strong><br>Una novela de Carlos Fernández Gates<br>Akuela Innovations<br><a href=\"mailto:empatia@elproyectoempatia.com\" style=\"color:#403c78\">empatia@elproyectoempatia.com</a></div>" +
     "</div></div>";
