@@ -7,6 +7,7 @@ const CONFIG = {
   ADMIN_EMAIL: "empatia@elproyectoempatia.com",
   TIME_ZONE: "America/Lima",
   SITE_URL: "https://elproyectoempatia.com/",
+  READ_URL: "https://lectura.elproyectoempatia.com/",
   WHATSAPP_URL: "https://wa.me/51922198480",
   SHEET_ORDERS: "Pedidos",
   SHEET_SAMPLE: "Solicitudes de lectura",
@@ -215,11 +216,12 @@ function handleSample_(p) {
     console.error("No se pudo enviar el aviso de lectura: " + error);
   }
   try {
+    const readUrl = CONFIG.READ_URL;
     MailApp.sendEmail({
       to: email,
-      subject: "Recibimos tu solicitud de lectura ✦ El Proyecto Empatía",
-      body: "Hola " + name + ":\n\nRecibimos tu solicitud del primer capítulo de El Proyecto Empatía. Te responderemos desde empatia@elproyectoempatia.com.\n\nEl Proyecto Empatía\nAkuela Innovations",
-      htmlBody: "<p>Hola " + esc_(name) + ":</p><p>Recibimos tu solicitud del primer capítulo de <i>El Proyecto Empatía</i>. Te responderemos desde <a href=\"mailto:empatia@elproyectoempatia.com\" style=\"color:#403c78\">empatia@elproyectoempatia.com</a>.</p><p style=\"margin-top:28px;color:#403c78;font-weight:600\">El Proyecto Empatía</p><p style=\"margin:0;color:#77736c\">Akuela Innovations</p>",
+      subject: "Tu primer capítulo de El Proyecto Empatía ✦",
+      body: "Hola " + name + ":\n\nAquí tienes el enlace para leer el primer capítulo de El Proyecto Empatía:\n" + readUrl + "\n\nEl Proyecto Empatía\nAkuela Innovations\nempatia@elproyectoempatia.com",
+      htmlBody: "<div style=\"margin:0 auto;max-width:600px;background:#fffdfa;color:#252525;font-family:Arial,sans-serif;line-height:1.6\"><div style=\"padding:20px 24px;background:#2d2a59;color:#fff;font-family:Georgia,serif;font-size:22px\">El Proyecto Empatía</div><div style=\"padding:28px 24px\"><p>Hola " + esc_(name) + ":</p><p>Aquí tienes el enlace para leer el primer capítulo de <i>El Proyecto Empatía</i>.</p><p style=\"margin:24px 0\"><a href=\"" + esc_(readUrl) + "\" style=\"display:inline-block;padding:13px 22px;border-radius:24px;background:#403c78;color:#fff;text-decoration:none\">Leer el primer capítulo →</a></p><div style=\"margin-top:28px;padding-top:18px;border-top:1px solid #ded8ce;color:#5f5a54\"><strong style=\"color:#2d2a59\">El Proyecto Empatía</strong><br>Akuela Innovations<br><a href=\"mailto:empatia@elproyectoempatia.com\" style=\"color:#403c78\">empatia@elproyectoempatia.com</a></div></div></div>",
       replyTo: CONFIG.ADMIN_EMAIL,
       name: "El Proyecto Empatía"
     });
@@ -235,7 +237,7 @@ function handleSample_(p) {
   return page_(
     adminSent ? "Solicitud recibida" : "Solicitud guardada",
     adminSent
-      ? "Recibimos tu solicitud del primer capítulo. Te responderemos desde empatia@elproyectoempatia.com."
+      ? "Recibimos tu solicitud y te enviamos por correo el enlace para leer el primer capítulo."
       : "Tu solicitud quedó registrada, pero el aviso por correo al equipo está pendiente. Si no recibes respuesta, escríbenos a empatia@elproyectoempatia.com.",
     true,
     "Código de solicitud: " + id
