@@ -17,13 +17,13 @@ const CONFIG = {
 };
 
 const ORDER_HEADERS = [
-  "ID de solicitud", "Fecha (hora de Perú)", "Nombre", "Correo",
+  "ID de solicitud", "Fecha", "Nombre", "Correo",
   "Teléfono", "Profesión", "Edición", "Precio del libro (S/)",
   "Delivery (S/)", "Dedicatoria", "Consentimiento",
   "Estado del pedido", "Estado del correo"
 ];
 const SAMPLE_HEADERS = [
-  "ID de solicitud", "Fecha (hora de Perú)", "Nombre",
+  "ID de solicitud", "Fecha", "Nombre",
   "Correo", "Consentimiento", "Estado"
 ];
 
@@ -104,7 +104,7 @@ function handleOrder_(p) {
   const editionName = special ? "Edición especial" : "Edición estándar";
   const dedicationValue = special && dedication ? dedication : "No solicitada";
   const now = new Date();
-  const dateText = Utilities.formatDate(now, CONFIG.TIME_ZONE, "dd/MM/yyyy HH:mm:ss") + " (hora de Perú)";
+  const dateText = Utilities.formatDate(now, CONFIG.TIME_ZONE, "dd/MM/yyyy HH:mm:ss");
   const id = "PED-" + Utilities.formatDate(now, CONFIG.TIME_ZONE, "yyyyMMdd-HHmmss") + "-" + Utilities.getUuid().slice(0, 8).toUpperCase();
 
   const sheet = getSheet_(CONFIG.SHEET_ORDERS);
@@ -186,7 +186,7 @@ function handleSample_(p) {
   }
 
   const now = new Date();
-  const dateText = Utilities.formatDate(now, CONFIG.TIME_ZONE, "dd/MM/yyyy HH:mm:ss") + " (hora de Perú)";
+  const dateText = Utilities.formatDate(now, CONFIG.TIME_ZONE, "dd/MM/yyyy HH:mm:ss");
   const id = "LEC-" + Utilities.formatDate(now, CONFIG.TIME_ZONE, "yyyyMMdd-HHmmss") + "-" + Utilities.getUuid().slice(0, 8).toUpperCase();
   const sheet = getSheet_(CONFIG.SHEET_SAMPLE);
   sheet.appendRow([id, now, name, email, "Sí", "Nuevo"]);
