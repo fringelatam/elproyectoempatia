@@ -121,6 +121,8 @@
     }
     .nav { display: flex; align-items: center; gap: 30px; }
     .nav a {
+      text-transform: uppercase;
+      letter-spacing: .045em;
       min-height: 44px;
       display: inline-flex;
       align-items: center;
@@ -390,6 +392,7 @@
     .fragment-form textarea { min-height: 94px; resize: vertical; }
     .fragment-form select { appearance: auto; }
     .fragment-form [hidden] { display: none!important; }
+    .hidden-frame { position: absolute; width: 1px; height: 1px; border: 0; clip-path: inset(50%); }
     .honeypot { position: absolute!important; left: -10000px!important; width: 1px!important; height: 1px!important; overflow: hidden!important; }
     .consent { display: flex!important; align-items: start; gap: 9px; margin: 18px 0 20px!important; color: #55514c!important; font: 400 12px/1.5 var(--sans)!important; letter-spacing: 0!important; text-transform: none!important; }
     .consent input { margin-top: 3px; accent-color: var(--indigo); }
@@ -405,10 +408,14 @@
     .meet-action { margin-top: 24px; }
     .meet-action:disabled { cursor: not-allowed; opacity: .58; box-shadow: none; transform: none; }
     .meet-note { display: block; margin-top: 10px; color: var(--muted); font: 400 11px/1.4 var(--sans); }
-    .fragment-copy .form-notice { margin: 0 0 18px; color: var(--muted); font: 400 12px/1.5 var(--sans); }
+    .fragment-copy .form-notice { display: flex; align-items: flex-start; gap: 8px; margin: 18px 0 0; color: var(--muted); font: 400 12px/1.5 var(--sans); }
+    .form-notice-icon { width: 14px; height: 14px; flex: none; display: inline-grid; place-items: center; margin-top: 1px; border: 1px solid currentColor; border-radius: 50%; font: 500 9px/1 var(--sans); }
+    .fragment-form .order-note { margin: 6px 0 18px; color: var(--muted); font: 400 12px/1.5 var(--sans); }
+    .fragment-form .order-note a { white-space: nowrap; }
     .fragment-copy .delivery-highlight { margin: 12px 0 0!important; color: var(--indigo)!important; font: 600 14px/1.45 var(--sans)!important; }
     .fragment-form :disabled { opacity: .62; cursor: not-allowed; }
-    .order-note { max-width: 470px; margin-top: 14px!important; font: 400 12px/1.5 var(--sans)!important; }\n    .order-note a { white-space: nowrap; }
+    .order-note { max-width: 470px; margin-top: 14px!important; font: 400 12px/1.5 var(--sans)!important; }
+    .order-note a { white-space: nowrap; }
 
     .author {
       display: grid;
@@ -421,6 +428,20 @@
     .author-photo { position: relative; width: min(100%, 460px); height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: center 28%; filter: saturate(.72) contrast(.98); }
     .author-copy h2 { margin: 10px 0 26px; font: 300 clamp(38px, 4.2vw, 56px)/1.08 var(--serif); }
     .author-copy p { margin: 0 0 16px; font: 300 17px/1.6 var(--serif); }
+    .footer-links { display: flex; align-items: center; gap: 18px; }
+    .footer-links a { text-underline-offset: 3px; }
+    dialog.terms-dialog { width: min(620px, calc(100% - 32px)); max-height: min(82vh, 760px); padding: 0; border: 1px solid var(--line); color: var(--ink); background: var(--paper); }
+    dialog.terms-dialog::backdrop { background: rgba(25, 23, 21, .42); }
+    .terms-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 24px; border-bottom: 1px solid var(--line); }
+    .terms-head h2 { margin: 0; font: 300 27px/1.2 var(--serif); }
+    .terms-close { width: 36px; height: 36px; border: 1px solid var(--line); color: var(--ink); background: transparent; font-size: 22px; cursor: pointer; }
+    .terms-content { max-height: calc(82vh - 78px); overflow: auto; padding: 22px 24px 28px; }
+    .terms-content h3 { margin: 24px 0 8px; font: 500 12px/1.4 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+    .terms-content p { margin: 0 0 12px; font: 300 16px/1.55 var(--serif); }
+    .copy-email-button { padding: 0; border: 0; color: var(--indigo); background: none; font: 500 11px/1.5 var(--sans); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .terms-content .copy-email-button { margin-left: 8px; }
+    .reader-dialog .terms-content .pill { margin-top: 8px; }
+    @media (max-width: 640px) { .footer-links { align-items: flex-start; flex-direction: column; gap: 6px; } .terms-head { padding: 17px 18px; } .terms-content { padding: 18px 18px 24px; } }
     footer {
       border-top: 1px solid var(--line);
       padding-block: 20px 28px;
@@ -453,7 +474,8 @@
       .top { min-height: 0; display: grid; gap: 5px; padding-block: 12px 8px; }
       .wordmark { font-size: 16px; }
       .nav { gap: 3px; justify-content: space-between; }
-      .nav a { min-height: 38px; padding-inline: 7px; font-size: 10px; }
+      .nav { gap: 0; }
+      .nav a { min-height: 38px; padding-inline: 3px; font-size: 9px; letter-spacing: 0; }
       .hero { min-height: 0; grid-template-columns: minmax(0, 1fr); gap: 0; padding-block: 42px 46px; }
       .hero::before { inset: auto 0 0; width: 100%; height: 54%; background-position: center; opacity: .5; }
       .hero h1 { max-width: 560px; margin: 20px 0 20px; font-size: clamp(42px, 10.5vw, 56px); line-height: 1.08; }
@@ -501,8 +523,8 @@
     <a class="wordmark" href="#inicio">El Proyecto Empatía</a>
     <nav class="nav" aria-label="Navegación principal">
       <a href="#historia">La novela</a>
-      <a href="#fragmento">Leer</a>
-      <a href="#ediciones">Ediciones</a>
+      <a href="#fragmento">El primer capítulo</a>
+      <a href="#ediciones">El libro</a>
       <a href="#autor">El autor</a>
     </nav>
   </header>
@@ -538,6 +560,27 @@
         <p class="serif">Andrés Loli tiene 35 años, una vida construida entre Lima y Londres y una obsesión: crear el primer dispositivo capaz de transmitir, de cuerpo a cuerpo, lo que otra persona siente. Junto a sus mejores amigos, con más fe que presupuesto, funda Akuela Innovations y logra lo imposible: que el dolor, el placer y la alegría de un desconocido se sientan como propios.</p>
         <p class="serif">Pero cuando las grandes corporaciones llaman a la puerta, Andrés descubre que sentir lo que siente el otro es solo el principio. Lo difícil será decidir quién tiene derecho a sentirlo.<br><br>Una novela sobre la empatía llevada al límite: la historia de un invento que podría cambiar al mundo y de los amigos que apostaron todo por hacerlo real.</p>
       </div>
+    </section>
+
+    <section class="section shell fragment" id="fragmento" aria-labelledby="fragment-title">
+      <div class="fragment-copy">
+        <p class="eyebrow">Una muestra del libro</p>
+        <h2 class="serif" id="fragment-title">Entra en la historia desde la primera página.</h2>
+        <p>Déjanos tu nombre y correo para solicitar el primer capítulo de <i>El Proyecto Empatía</i>.</p>
+        <p class="form-notice"><span class="form-notice-icon" aria-hidden="true">i</span><span>Si no encuentras el correo, revisa Spam o correo no deseado.</span></p>
+      </div>
+      <form class="fragment-form" id="sampleForm" action="https://script.google.com/macros/s/AKfycbzPyANN575Hkum1Uf8lWUz6ztbCQBVzNokEA2IvOqWnHQOFlglCDy2pq00bVCV8JEP6/exec" method="post" target="formResponse">
+        <input type="hidden" name="form_type" value="sample">
+        <label>Nombre
+          <input type="text" name="nombre" autocomplete="given-name" maxlength="120" required>
+        </label>
+        <label>Correo electrónico
+          <input type="email" name="email" autocomplete="email" required>
+        </label>
+        <label class="consent"><input type="checkbox" name="consentimiento" value="si" required> Autorizo el uso de mis datos para atender esta solicitud. <a href="#privacidad" data-open-terms>Ver privacidad</a>.</label>
+        <button class="pill primary" type="submit">Solicitar el capítulo <span class="arrow" aria-hidden="true">→</span></button>
+        <p class="form-status" id="formStatus" aria-live="polite"></p>
+      </form>
     </section>
 
     <section class="section shell" id="ediciones" aria-labelledby="editions-title">
@@ -584,11 +627,11 @@
     <section class="section shell fragment" id="pedido" aria-labelledby="order-title">
       <div class="fragment-copy">
         <p class="eyebrow">Pedidos</p>
-        <h2 class="serif" id="order-title">Elige tu edición.</h2>
-        <p>La edición estándar cuesta S/59 y la edición especial S/64, con firma y dedicatoria opcional para regalar.</p>
-        <p class="delivery-highlight">Delivery en Lima: S/10 adicionales</p>
+        <h2 class="serif" id="order-title">¿Prefieres que te contactemos por correo?</h2>
+        <p>Déjanos tus datos y dinos qué edición te interesa. Te responderemos por correo para coordinar el pago y la entrega.</p>
+        <p class="form-notice"><span class="form-notice-icon" aria-hidden="true">i</span><span>Si no encuentras el correo, revisa Spam o correo no deseado.</span></p>
       </div>
-      <form class="fragment-form" id="orderForm" action="https://script.google.com/macros/s/AKfycbzPyANN575Hkum1Uf8lWUz6ztbCQBVzNokEA2IvOqWnHQOFlglCDy2pq00bVCV8JEP6/exec" method="post">
+      <form class="fragment-form" id="orderForm" action="https://script.google.com/macros/s/AKfycbzPyANN575Hkum1Uf8lWUz6ztbCQBVzNokEA2IvOqWnHQOFlglCDy2pq00bVCV8JEP6/exec" method="post" target="formResponse">
         <input type="hidden" name="form_type" value="order">
         <label>Nombre completo
           <input type="text" name="nombre" autocomplete="name" maxlength="120" required>
@@ -601,36 +644,17 @@
         </label>
         <label>Edición
           <select name="edicion" id="editionSelect" required>
-            <option value="regular">Regular, S/59</option>
-            <option value="firmada">Especial, S/64</option>
+            <option value="regular">Edición estándar — S/59</option>
+            <option value="firmada">Edición especial — S/64</option>
           </select>
         </label>
+        <p class="order-note">Delivery en Lima: S/10 adicionales</p>
         <label id="dedicationField" hidden>Dedicatoria (opcional, si es para regalo)
           <textarea name="dedicatoria" maxlength="400" placeholder="Escribe aquí el texto de la dedicatoria"></textarea>
         </label>
-        <label class="consent"><input type="checkbox" name="consentimiento" value="si" required> Autorizo el uso de mis datos para atender este pedido.</label>
+        <label class="consent"><input type="checkbox" name="consentimiento" value="si" required> Autorizo el uso de mis datos para atender este pedido. <a href="#privacidad" data-open-terms>Ver privacidad</a>.</label>
         <button class="pill primary" type="submit">Enviar solicitud <span class="arrow" aria-hidden="true">→</span></button>
         <p class="form-status" aria-live="polite"></p>
-      </form>
-    </section>
-
-    <section class="section shell fragment" id="fragmento" aria-labelledby="fragment-title">
-      <div class="fragment-copy">
-        <p class="eyebrow">Una muestra del libro</p>
-        <h2 class="serif" id="fragment-title">Entra en la historia desde la primera página.</h2>
-        <p>Déjanos tu nombre y correo para solicitar el primer capítulo de <i>El Proyecto Empatía</i>.</p>
-      </div>
-      <form class="fragment-form" id="sampleForm" action="https://script.google.com/macros/s/AKfycbzPyANN575Hkum1Uf8lWUz6ztbCQBVzNokEA2IvOqWnHQOFlglCDy2pq00bVCV8JEP6/exec" method="post">
-        <input type="hidden" name="form_type" value="sample">
-        <label>Nombre
-          <input type="text" name="nombre" autocomplete="given-name" maxlength="120" required>
-        </label>
-        <label>Correo electrónico
-          <input type="email" name="email" autocomplete="email" required>
-        </label>
-        <label class="consent"><input type="checkbox" name="consentimiento" value="si" required> Autorizo el uso de mis datos para atender esta solicitud.</label>
-        <button class="pill primary" type="submit">Solicitar el capítulo <span class="arrow" aria-hidden="true">→</span></button>
-        <p class="form-status" id="formStatus" aria-live="polite"></p>
       </form>
     </section>
 
@@ -643,7 +667,7 @@
         <div>
           <p class="meet-copy">Participa en el sorteo de un encuentro con Carlos Fernández Gates. Escríbenos al WhatsApp oficial y te contamos cómo hacerlo.</p>
           <a class="pill primary meet-action" href="https://wa.me/51922198480?text=Hola%2C%20quiero%20participar%20en%20el%20Meet%20%26%20Greet%20de%20El%20Proyecto%20Empat%C3%ADa." target="_blank" rel="noopener noreferrer">Participa <span class="arrow" aria-hidden="true">→</span></a>
-          <small class="meet-note">También puedes escribir a empatia@elproyectoempatia.com.</small>
+          <small class="meet-note">También puedes escribir a <span>empatia@elproyectoempatia.com</span> <button class="copy-email-button" type="button" data-copy-email>Copiar correo</button>.</small>
         </div>
       </div>
     </section>
@@ -662,8 +686,36 @@
 
   <footer class="shell">
     <span>El Proyecto Empatía © 2026</span>
-    <span>Una novela de Carlos Fernández Gates</span>
+    <div class="footer-links">
+      <a href="#terminos" id="openTerms">Términos y privacidad</a>
+      <span>Una novela de Carlos Fernández Gates</span>
+    </div>
   </footer>
+  <iframe class="hidden-frame" id="formResponse" name="formResponse" title="Respuesta del formulario" aria-hidden="true" tabindex="-1"></iframe>
+  <dialog class="terms-dialog" id="termsDialog" aria-labelledby="termsTitle">
+    <div class="terms-head"><h2 id="termsTitle">Términos y privacidad</h2><button class="terms-close" type="button" data-close-terms aria-label="Cerrar">×</button></div>
+    <div class="terms-content">
+      <p>Estos términos explican cómo solicitar y coordinar la compra del libro. Enviar el formulario o escribir por WhatsApp registra una solicitud. El pedido se confirma cuando acordemos la edición, el monto total, el pago y la entrega.</p>
+      <h3>Ediciones y precios</h3>
+      <p>La edición estándar cuesta <strong>S/59</strong>. La edición especial cuesta <strong>S/64</strong> e incluye la opción de solicitar una dedicatoria. Los precios están expresados en soles peruanos.</p>
+      <h3>Delivery</h3>
+      <p>El delivery en Lima cuesta <strong>S/10 adicionales</strong> al precio del libro. La cobertura y el costo de entrega fuera de Lima se coordinan antes de confirmar el pedido.</p>
+      <h3>Dedicatorias</h3>
+      <p>La dedicatoria es opcional y está disponible únicamente para la edición especial. El texto se coordina antes de confirmar el pedido.</p>
+      <h3 id="privacidad">Privacidad</h3>
+      <p>Carlos Fernández Gates usará los datos que compartas, como nombre, correo, teléfono, edición elegida y dedicatoria, para atender tu solicitud, coordinar tu pedido y enviarte el primer capítulo si lo solicitas. Los datos se compartirán solo con los servicios necesarios para gestionar las solicitudes y enviar correos. No se usarán para enviarte publicidad ajena a estos fines.</p>
+      <p>Se conservarán durante el tiempo necesario para atender tu solicitud y mantener el registro del pedido. Para solicitar acceso, corrección o eliminación de tus datos, escribe a <span>empatia@elproyectoempatia.com</span><button class="copy-email-button" type="button" data-copy-email>Copiar correo</button>.</p>
+      <h3>Contenido del sitio</h3>
+      <p>Los textos, imágenes y elementos gráficos de este sitio no pueden reproducirse ni distribuirse con fines comerciales sin autorización.</p>
+    </div>
+  </dialog>
+  <dialog class="terms-dialog reader-dialog" id="readerDialog" aria-labelledby="readerTitle">
+    <div class="terms-head"><h2 id="readerTitle">Aquí tienes el primer capítulo</h2><button class="terms-close" type="button" data-close-reader aria-label="Cerrar">×</button></div>
+    <div class="terms-content">
+      <p>Tu solicitud fue enviada. Ya puedes comenzar a leer.</p>
+      <a class="pill primary" href="https://lectura.elproyectoempatia.com/" target="_blank" rel="noopener noreferrer">Leer el primer capítulo <span aria-hidden="true">→</span></a>
+    </div>
+  </dialog>
   <div class="notice" id="notice" role="status"></div>
 
   <script>
@@ -674,12 +726,47 @@
       window.setTimeout(() => notice.classList.remove("is-visible"), 5000);
     }
 
+    const termsDialog = document.getElementById("termsDialog");
+    const readerDialog = document.getElementById("readerDialog");
+    document.getElementById("openTerms").addEventListener("click", (event) => {
+      event.preventDefault();
+      termsDialog.showModal();
+    });
+    document.querySelectorAll("[data-open-terms]").forEach((link) => {
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        termsDialog.showModal();
+        requestAnimationFrame(() => document.getElementById("privacidad").scrollIntoView());
+      });
+    });
+    document.querySelector("[data-close-terms]").addEventListener("click", () => termsDialog.close());
+    document.querySelector("[data-close-reader]").addEventListener("click", () => readerDialog.close());
+    [termsDialog, readerDialog].forEach((dialog) => {
+      dialog.addEventListener("click", (event) => {
+        if (event.target === dialog) dialog.close();
+      });
+    });
+    document.querySelectorAll("[data-copy-email]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText("empatia@elproyectoempatia.com");
+          button.textContent = "Correo copiado";
+          window.setTimeout(() => { button.textContent = "Copiar correo"; }, 1800);
+        } catch (_) {
+          button.textContent = "No se pudo copiar";
+          window.setTimeout(() => { button.textContent = "Copiar correo"; }, 1800);
+        }
+      });
+    });
+
     const editionSelect = document.getElementById("editionSelect");
     const dedicationField = document.getElementById("dedicationField");
     function updateDedicationField() {
       const signed = editionSelect.value === "firmada";
+      const dedicationInput = dedicationField.querySelector("textarea");
       dedicationField.hidden = !signed;
-      if (!signed) dedicationField.querySelector("textarea").value = "";
+      dedicationInput.disabled = !signed;
+      if (!signed) dedicationInput.value = "";
     }
     editionSelect.addEventListener("change", updateDedicationField);
     updateDedicationField();
@@ -715,17 +802,59 @@
       revealItems.forEach((item) => revealObserver.observe(item));
     }
 
+    const responseFrame = document.getElementById("formResponse");
+    let activeForm = null;
+    let responseTimer = 0;
+    responseFrame.addEventListener("load", () => {
+      if (!activeForm) return;
+      const form = activeForm;
+      activeForm = null;
+      window.clearTimeout(responseTimer);
+      const button = form.querySelector('button[type="submit"]');
+      const status = form.querySelector(".form-status");
+      button.disabled = false;
+      button.removeAttribute("data-state");
+      button.innerHTML = form.id === "sampleForm"
+        ? 'Solicitar el capítulo <span class="arrow" aria-hidden="true">→</span>'
+        : 'Enviar solicitud <span class="arrow" aria-hidden="true">→</span>';
+      if (status) {
+        status.dataset.state = "success";
+        status.textContent = form.id === "sampleForm"
+          ? "Tu solicitud fue enviada. Revisa tu correo para recibir el capítulo."
+          : "Tu solicitud fue enviada. Te responderemos por correo para coordinar el pago y la entrega.";
+      }
+      if (form.id === "sampleForm") readerDialog.showModal();
+      form.reset();
+      if (form.id === "orderForm") updateDedicationField();
+    });
     document.querySelectorAll("#sampleForm, #orderForm").forEach((form) => {
-      form.addEventListener("submit", () => {
-        const submit = form.querySelector('button[type="submit"]');
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        if (activeForm) return;
+        activeForm = form;
+        const button = form.querySelector('button[type="submit"]');
         const status = form.querySelector(".form-status");
-        submit.disabled = true;
-        submit.dataset.state = "sending";
-        submit.textContent = "Enviando…";
+        button.disabled = true;
+        button.dataset.state = "sending";
+        button.textContent = "Enviando…";
         if (status) {
-          status.dataset.state = "sending";
+          status.removeAttribute("data-state");
           status.textContent = "Enviando tu solicitud…";
         }
+        form.submit();
+        responseTimer = window.setTimeout(() => {
+          if (activeForm !== form) return;
+          activeForm = null;
+          button.disabled = false;
+          button.removeAttribute("data-state");
+          button.innerHTML = form.id === "sampleForm"
+            ? 'Solicitar el capítulo <span class="arrow" aria-hidden="true">→</span>'
+            : 'Enviar solicitud <span class="arrow" aria-hidden="true">→</span>';
+          if (status) {
+            status.dataset.state = "error";
+            status.textContent = "No pudimos confirmar el envío. Revisa tu conexión antes de volver a intentarlo.";
+          }
+        }, 30000);
       });
     });
 
